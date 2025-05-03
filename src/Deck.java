@@ -10,7 +10,7 @@ public class Deck {
         String[] suits = {"Hearts", "Diamonds", "Clubs", "Spades"};
         for (String suit : suits) {
             for (int i = 1; i <= 13; i++) {
-                cards.add(new Card(suit, i));
+                cards.add(new Card(suit, i, 0));
             }
         }
         shuffle();
