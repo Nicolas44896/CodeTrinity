@@ -11,12 +11,13 @@ public class PyramidGame {
     private final List<Card> selectedCards = new ArrayList<>();
     private final List<JButton> selectedButtons = new ArrayList<>();
 
-
     public void setupPyramid() {
         for (int row = 0; row < 7; row++) {
             List<Card> currentRow = new ArrayList<>();
             for (int col = 0; col <= row; col++) {
-                currentRow.add(deck.drawCard());
+                Card auxCard = deck.drawCard();
+                auxCard.setRow(row);
+                currentRow.add(auxCard);
             }
             pyramid.add(currentRow);
         }
@@ -35,7 +36,6 @@ public class PyramidGame {
                 Card card = pyramid.get(row).get(col);
                 JButton cardButton = new JButton(card.toString());
                 cardButton.addActionListener(new CardButtonListener(card, cardButton, row, col)); //
-                //cardButton.setEnabled(true); // Disable buttons for now
                 rowPanel.add(cardButton);
             }
             frame.add(rowPanel);
@@ -43,6 +43,7 @@ public class PyramidGame {
 
         frame.setVisible(true);
     }
+
     private class CardButtonListener implements ActionListener {
         private final Card card;
         private final JButton button;
@@ -62,11 +63,15 @@ public class PyramidGame {
                 selectedCards.remove(card);
                 selectedButtons.remove(button);
                 button.setBackground(null); // Deselect
-            } else {
+            } else if(selectedCards.size() < 2 && cartaValida(card)) {
                 selectedCards.add(card);
                 selectedButtons.add(button);
                 button.setBackground(Color.YELLOW); // Highlight selection
+            } else {
+                JOptionPane.showMessageDialog(null, "You can only select last row!");
             }
+
+            if (selectedCards.get(0).getValue() == 13 ) removeSelectedCards();
             if (selectedCards.size() == 2) {
                 int sum = selectedCards.get(0).getValue() + selectedCards.get(1).getValue();
                 if (sum == 13) {
@@ -85,6 +90,11 @@ public class PyramidGame {
         selectedCards.clear();
         selectedButtons.clear();
     }
+
+    private boolean cartaValida(Card auxCard) {
+        return auxCard.getRow() == pyramid.size()-1;
+    }
+
     private void removeSelectedCards() {
         for (JButton button : selectedButtons) {
             button.setVisible(false); // Hide button
