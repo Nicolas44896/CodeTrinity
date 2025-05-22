@@ -10,6 +10,8 @@ public class PyramidGame {
     private final Deck deck = new Deck();
     private final List<Card> selectedCards = new ArrayList<>();
     private final List<JButton> selectedButtons = new ArrayList<>();
+    private Card auxiliaryCard = null;
+    private JLabel auxiliaryCardLabel = new JLabel("No card drawn");
 
     public void setupPyramid() {
         for (int row = 0; row < 7; row++) {
@@ -24,12 +26,56 @@ public class PyramidGame {
     }
 
     public void displayPyramidGUI() {
+        JButton drawAuxiliaryCardButton = new JButton("Draw Auxiliary Card");
+        JButton auxiliaryCardButton = new JButton("No card drawn");
+
+        // Agregar el botón y la etiqueta al marco
+        /*JFrame frame = new JFrame("Pyramid Card Game");
+        frame.add(drawAuxiliaryCardButton, BorderLayout.SOUTH);
+        frame.add(auxiliaryCardLabel, BorderLayout.NORTH);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setSize(800, 600);
+        frame.setLayout(new GridLayout(7, 1)); // 7 rows for the pyramid*/
+
         JFrame frame = new JFrame("Pyramid Card Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
-        frame.setLayout(new GridLayout(7, 1)); // 7 rows for the pyramid
+        frame.setLayout(new BorderLayout()); // Usar BorderLayout para organizar los componentes principales
 
-        for (int row = 0; row < pyramid.size(); row++) {
+        // Panel principal para la pirámide
+        JPanel pyramidPanel = new JPanel();
+        pyramidPanel.setLayout(new BoxLayout(pyramidPanel, BoxLayout.Y_AXIS)); // Apilar filas verticalmente
+
+        // Botón y etiqueta para el mazo auxiliar
+        JPanel auxiliaryPanel = new JPanel();
+        auxiliaryPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+        auxiliaryPanel.add(drawAuxiliaryCardButton);
+        auxiliaryPanel.add(auxiliaryCardLabel);
+
+        drawAuxiliaryCardButton.addActionListener(e -> {  //Agregar boton para extraer cartas del mazo auxiliar
+            auxiliaryCard = deck.drawCard();
+            if (auxiliaryCard != null) {
+                auxiliaryCardLabel.setText(auxiliaryCard.toString());
+                if (selectedCards.size() == 1) {
+                    int sum = selectedCards.get(0).getValue() + auxiliaryCard.getValue();
+                    if (sum == 13) {
+                        removeSelectedCards();
+                        auxiliaryCard = null; // Descartar la carta del mazo auxiliar
+                        auxiliaryCardButton.setText("No card drawn");
+                        auxiliaryCardButton.setEnabled(false); // Deshabilitar el botón
+                    } else {
+                        JOptionPane.showMessageDialog(null, "Selected cards do not sum to 13!");
+                        clearSelection();
+                    }
+                } else {
+                    JOptionPane.showMessageDialog(null, "Select a card from the pyramid first!");
+                }
+            } else {
+                auxiliaryCardLabel.setText("No more cards in the deck");
+            }
+        });
+
+       /* for (int row = 0; row < pyramid.size(); row++) {
             JPanel rowPanel = new JPanel();
             rowPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
             for (int col = 0; col <= row; col++) {
@@ -41,6 +87,25 @@ public class PyramidGame {
             frame.add(rowPanel);
         }
 
+        frame.setVisible(true);*/
+        // Crear las filas de la pirámide
+        //JPanel pyramidPanel = new JPanel();
+        pyramidPanel.setLayout(new BoxLayout(pyramidPanel, BoxLayout.Y_AXIS));
+        for (int row = 0; row < pyramid.size(); row++) {
+            JPanel rowPanel = new JPanel();
+            rowPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+            for (int col = 0; col <= row; col++) {
+                Card card = pyramid.get(row).get(col);
+                JButton cardButton = new JButton(card.toString());
+                cardButton.addActionListener(new CardButtonListener(card, cardButton, row, col));
+                rowPanel.add(cardButton);
+            }
+            pyramidPanel.add(rowPanel);
+        }
+
+        // Agregar los paneles al marco
+        frame.add(auxiliaryPanel, BorderLayout.NORTH);
+        frame.add(pyramidPanel, BorderLayout.CENTER);
         frame.setVisible(true);
     }
 
@@ -49,6 +114,7 @@ public class PyramidGame {
         private final JButton button;
         private final int row;
         private final int col;
+
 
         public CardButtonListener(Card card, JButton button, int row, int col) {
             this.card = card;
@@ -82,6 +148,19 @@ public class PyramidGame {
                 }
             }
         }
+        private void handleAuxiliaryCardSelection() {
+            if (auxiliaryCard != null && selectedCards.size() == 1) {
+                int sum = selectedCards.get(0).getValue() + auxiliaryCard.getValue();
+                if (sum == 13) {
+                    removeSelectedCards();
+                    auxiliaryCard = null; // Descartar la carta del mazo auxiliar
+                    auxiliaryCardLabel.setText("No card drawn");
+                } else {
+                    JOptionPane.showMessageDialog(null, "Selected cards do not sum to 13!");
+                    clearSelection();
+                }
+            }
+        }
     }
     private void clearSelection() {
         for (JButton button : selectedButtons) {
@@ -97,13 +176,13 @@ public class PyramidGame {
 
     private void removeSelectedCards() {
         for (JButton button : selectedButtons) {
-            button.setVisible(false); // Hide button
+            button.setVisible(false); // Ocultar botón
         }
         for (Card card : selectedCards) {
             for (int row = 0; row < pyramid.size(); row++) {
                 List<Card> currentRow = pyramid.get(row);
                 if (currentRow.contains(card)) {
-                    currentRow.set(currentRow.indexOf(card), null); // Remove card from pyramid
+                    currentRow.set(currentRow.indexOf(card), null); // Eliminar carta de la pirámide
                     break;
                 }
             }
