@@ -12,7 +12,9 @@ public class PyramidGame {
     private final List<JButton> selectedButtons = new ArrayList<>();
     private Card auxiliaryCard = null;
     private JLabel auxiliaryCardLabel = new JLabel("No card drawn");
-
+    private Card currentDeckCard;
+    private JButton deckButton;
+    private JButton activeDeckCardButton;
     public void setupPyramid() {
         for (int row = 0; row < 7; row++) {
             List<Card> currentRow = new ArrayList<>();
@@ -26,74 +28,16 @@ public class PyramidGame {
     }
 
     public void displayPyramidGUI() {
-        JButton drawAuxiliaryCardButton = new JButton("Draw Auxiliary Card");
-        JButton auxiliaryCardButton = new JButton("No card drawn");
-
-        // Agregar el botón y la etiqueta al marco
-        /*JFrame frame = new JFrame("Pyramid Card Game");
-        frame.add(drawAuxiliaryCardButton, BorderLayout.SOUTH);
-        frame.add(auxiliaryCardLabel, BorderLayout.NORTH);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(800, 600);
-        frame.setLayout(new GridLayout(7, 1)); // 7 rows for the pyramid*/
-
         JFrame frame = new JFrame("Pyramid Card Game");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
-        frame.setLayout(new BorderLayout()); // Usar BorderLayout para organizar los componentes principales
+        frame.setLayout(new BorderLayout());
 
-        // Panel principal para la pirámide
+        // Panel para la pirámide
         JPanel pyramidPanel = new JPanel();
-        pyramidPanel.setLayout(new BoxLayout(pyramidPanel, BoxLayout.Y_AXIS)); // Apilar filas verticalmente
-
-        // Botón y etiqueta para el mazo auxiliar
-        JPanel auxiliaryPanel = new JPanel();
-        auxiliaryPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-        auxiliaryPanel.add(drawAuxiliaryCardButton);
-        auxiliaryPanel.add(auxiliaryCardLabel);
-
-        drawAuxiliaryCardButton.addActionListener(e -> {  //Agregar boton para extraer cartas del mazo auxiliar
-            auxiliaryCard = deck.drawCard();
-            if (auxiliaryCard != null) {
-                auxiliaryCardLabel.setText(auxiliaryCard.toString());
-                if (selectedCards.size() == 1) {
-                    int sum = selectedCards.get(0).getValue() + auxiliaryCard.getValue();
-                    if (sum == 13) {
-                        removeSelectedCards();
-                        auxiliaryCard = null; // Descartar la carta del mazo auxiliar
-                        auxiliaryCardButton.setText("No card drawn");
-                        auxiliaryCardButton.setEnabled(false); // Deshabilitar el botón
-                    } else {
-                        JOptionPane.showMessageDialog(null, "Selected cards do not sum to 13!");
-                        clearSelection();
-                    }
-                } else {
-                    JOptionPane.showMessageDialog(null, "Select a card from the pyramid first!");
-                }
-            } else {
-                auxiliaryCardLabel.setText("No more cards in the deck");
-            }
-        });
-
-       /* for (int row = 0; row < pyramid.size(); row++) {
-            JPanel rowPanel = new JPanel();
-            rowPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
-            for (int col = 0; col <= row; col++) {
-                Card card = pyramid.get(row).get(col);
-                JButton cardButton = new JButton(card.toString());
-                cardButton.addActionListener(new CardButtonListener(card, cardButton, row, col)); //
-                rowPanel.add(cardButton);
-            }
-            frame.add(rowPanel);
-        }
-
-        frame.setVisible(true);*/
-        // Crear las filas de la pirámide
-        //JPanel pyramidPanel = new JPanel();
         pyramidPanel.setLayout(new BoxLayout(pyramidPanel, BoxLayout.Y_AXIS));
         for (int row = 0; row < pyramid.size(); row++) {
-            JPanel rowPanel = new JPanel();
-            rowPanel.setLayout(new FlowLayout(FlowLayout.CENTER));
+            JPanel rowPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             for (int col = 0; col <= row; col++) {
                 Card card = pyramid.get(row).get(col);
                 JButton cardButton = new JButton(card.toString());
@@ -103,11 +47,54 @@ public class PyramidGame {
             pyramidPanel.add(rowPanel);
         }
 
-        // Agregar los paneles al marco
-        frame.add(auxiliaryPanel, BorderLayout.NORTH);
+        // Panel inferior con mazo
+        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+        deckButton = new JButton("Sacar carta del mazo");
+        activeDeckCardButton = new JButton("Carta activa");
+        activeDeckCardButton.setVisible(false);
+
+        deckButton.addActionListener(e -> {
+            currentDeckCard = deck.drawCard();
+            if (currentDeckCard != null) {
+                activeDeckCardButton.setText(currentDeckCard.toString());
+                activeDeckCardButton.setVisible(true);
+            } else {
+                deckButton.setEnabled(false);
+                activeDeckCardButton.setText("Sin cartas");
+            }
+        });
+
+        activeDeckCardButton.addActionListener(e -> {
+            if (selectedCards.contains(currentDeckCard)) {
+                selectedCards.remove(currentDeckCard);
+                selectedButtons.remove(activeDeckCardButton);
+                activeDeckCardButton.setBackground(null);
+            } else {
+                selectedCards.add(currentDeckCard);
+                selectedButtons.add(activeDeckCardButton);
+                activeDeckCardButton.setBackground(Color.YELLOW);
+            }
+
+            if (selectedCards.size() == 2) {
+                int sum = selectedCards.get(0).getValue() + selectedCards.get(1).getValue();
+                if (sum == 13) {
+                    removeSelectedCards();
+                } else {
+                    JOptionPane.showMessageDialog(null, "Selected cards do not sum to 13!");
+                    clearSelection();
+                }
+            }
+        });
+
+        bottomPanel.add(deckButton);
+        bottomPanel.add(activeDeckCardButton);
+
+        // Agregar todo al frame
         frame.add(pyramidPanel, BorderLayout.CENTER);
+        frame.add(bottomPanel, BorderLayout.SOUTH);
         frame.setVisible(true);
     }
+
 
     private class CardButtonListener implements ActionListener {
         private final Card card;
@@ -136,7 +123,6 @@ public class PyramidGame {
             } else {
                 JOptionPane.showMessageDialog(null, "You can only select last row!");
             }
-
             if (selectedCards.get(0).getValue() == 13 ) removeSelectedCards();
             if (selectedCards.size() == 2) {
                 int sum = selectedCards.get(0).getValue() + selectedCards.get(1).getValue();
@@ -148,6 +134,7 @@ public class PyramidGame {
                 }
             }
         }
+
         private void handleAuxiliaryCardSelection() {
             if (auxiliaryCard != null && selectedCards.size() == 1) {
                 int sum = selectedCards.get(0).getValue() + auxiliaryCard.getValue();
@@ -162,6 +149,7 @@ public class PyramidGame {
             }
         }
     }
+
     private void clearSelection() {
         for (JButton button : selectedButtons) {
             button.setBackground(null); // Reset button color
