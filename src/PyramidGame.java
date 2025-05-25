@@ -40,7 +40,12 @@ public class PyramidGame {
             JPanel rowPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
             for (int col = 0; col <= row; col++) {
                 Card card = pyramid.get(row).get(col);
+                Dimension buttonSize = new Dimension(60, 100); // Ancho x Alto
                 JButton cardButton = new JButton(card.toString());
+                cardButton.setPreferredSize(buttonSize);
+                cardButton.setMinimumSize(buttonSize);
+                cardButton.setMaximumSize(buttonSize);
+
                 cardButton.addActionListener(new CardButtonListener(card, cardButton, row, col));
                 rowPanel.add(cardButton);
             }
@@ -150,8 +155,11 @@ public class PyramidGame {
 
     private void removeSelectedCards() {
         for (JButton button : selectedButtons) {
-            button.setVisible(false); // Ocultar botón
+            button.setEnabled(false); // Desactivar botón
+            button.setText(""); // Quitar texto de la carta
+            button.setBackground(null); // Restaurar fondo
         }
+
         for (Card card : selectedCards) {
             for (int row = 0; row < pyramid.size(); row++) {
                 List<Card> currentRow = pyramid.get(row);
