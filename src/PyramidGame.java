@@ -134,20 +134,6 @@ public class PyramidGame {
                 }
             }
         }
-
-        private void handleAuxiliaryCardSelection() {
-            if (auxiliaryCard != null && selectedCards.size() == 1) {
-                int sum = selectedCards.get(0).getValue() + auxiliaryCard.getValue();
-                if (sum == 13) {
-                    removeSelectedCards();
-                    auxiliaryCard = null; // Descartar la carta del mazo auxiliar
-                    auxiliaryCardLabel.setText("No card drawn");
-                } else {
-                    JOptionPane.showMessageDialog(null, "Selected cards do not sum to 13!");
-                    clearSelection();
-                }
-            }
-        }
     }
 
     private void clearSelection() {
