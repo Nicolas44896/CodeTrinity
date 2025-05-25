@@ -127,7 +127,7 @@ public class PyramidGame {
                 selectedButtons.add(button);
                 button.setBackground(Color.YELLOW); // Highlight selection
             } else {
-                JOptionPane.showMessageDialog(null, "You can only select last row!");
+                JOptionPane.showMessageDialog(null, "Esta carta no es valida!");
             }
             if (selectedCards.get(0).getValue() == 13 ) removeSelectedCards();
             if (selectedCards.size() == 2) {
@@ -151,7 +151,28 @@ public class PyramidGame {
     }
 
     private boolean cartaValida(Card auxCard) {
-        return auxCard.getRow() == pyramid.size()-1;
+        int row = auxCard.getRow();
+        int col = -1;
+
+        // Buscamos la columna de la carta
+        for (int i = 0; i < pyramid.get(row).size(); i++) {
+            if (pyramid.get(row).get(i) == auxCard) {
+                col = i;
+                break;
+            }
+        }
+
+        // Si no se encontró (algo raro), no es válida
+        if (col == -1) return false;
+
+        // Si está en la última fila, siempre es válida
+        if (row == pyramid.size() - 1) return true;
+
+        // Si está en otra fila, debe chequear si está liberada
+        Card abajoIzq = pyramid.get(row + 1).get(col);
+        Card abajoDer = pyramid.get(row + 1).get(col + 1);
+
+        return abajoIzq == null && abajoDer == null;
     }
 
     private void removeSelectedCards() {
