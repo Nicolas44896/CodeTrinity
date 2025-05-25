@@ -46,6 +46,7 @@ public class PyramidGame {
                 cardButton.setMinimumSize(buttonSize);
                 cardButton.setMaximumSize(buttonSize);
 
+
                 cardButton.addActionListener(new CardButtonListener(card, cardButton, row, col));
                 rowPanel.add(cardButton);
             }
