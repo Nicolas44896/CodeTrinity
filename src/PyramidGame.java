@@ -13,8 +13,9 @@ public class PyramidGame {
     private Card auxiliaryCard = null;
     private JLabel auxiliaryCardLabel = new JLabel("No card drawn");
     private Card currentDeckCard;
-    private JButton deckButton;
-    private JButton activeDeckCardButton;
+    private JButton auxDeck;
+    private JButton activeAuxDeckCardButton;
+
     public void setupPyramid() {
         for (int row = 0; row < 7; row++) {
             List<Card> currentRow = new ArrayList<>();
@@ -54,33 +55,49 @@ public class PyramidGame {
         }
 
         // Panel inferior con mazo
-        JPanel bottomPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-        deckButton = new JButton("Sacar carta del mazo");
-        activeDeckCardButton = new JButton("Carta activa");
-        activeDeckCardButton.setVisible(false);
+        JPanel rightPanel = new JPanel();
+        rightPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+        rightPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
 
-        deckButton.addActionListener(e -> {
+        auxDeck = new JButton("Mazo Auxiliar");
+        activeAuxDeckCardButton = new JButton("Carta activa");
+        activeAuxDeckCardButton.setVisible(false);
+
+        auxDeck.setAlignmentX(Component.CENTER_ALIGNMENT);
+        activeAuxDeckCardButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+        rightPanel.add(Box.createVerticalGlue());
+        rightPanel.add(auxDeck);
+        rightPanel.add(Box.createVerticalStrut(10));
+        rightPanel.add(activeAuxDeckCardButton);
+        rightPanel.add(Box.createVerticalGlue());
+
+        auxDeck.addActionListener(e -> {
             currentDeckCard = deck.drawCard();
             if (currentDeckCard != null) {
-                activeDeckCardButton.setText(currentDeckCard.toString());
-                activeDeckCardButton.setVisible(true);
+                currentDeckCard.setRow(-1);
+                activeAuxDeckCardButton.setText(currentDeckCard.toString());
+                activeAuxDeckCardButton.setVisible(true);
             } else {
-                deckButton.setEnabled(false);
-                activeDeckCardButton.setText("Sin cartas");
+                auxDeck.setEnabled(false);
+                activeAuxDeckCardButton.setText("Sin cartas");
             }
         });
 
-        activeDeckCardButton.addActionListener(e -> {
+        activeAuxDeckCardButton.addActionListener(e -> {
             if (selectedCards.contains(currentDeckCard)) {
                 selectedCards.remove(currentDeckCard);
-                selectedButtons.remove(activeDeckCardButton);
-                activeDeckCardButton.setBackground(null);
+                selectedButtons.remove(activeAuxDeckCardButton);
+                activeAuxDeckCardButton.setBackground(null);
             } else {
                 selectedCards.add(currentDeckCard);
-                selectedButtons.add(activeDeckCardButton);
-                activeDeckCardButton.setBackground(Color.YELLOW);
+                selectedButtons.add(activeAuxDeckCardButton);
+                activeAuxDeckCardButton.setBackground(Color.YELLOW);
             }
-
+            if (currentDeckCard.getValue() == 13)  {
+                removeSelectedCards();
+            }
             if (selectedCards.size() == 2) {
                 int sum = selectedCards.get(0).getValue() + selectedCards.get(1).getValue();
                 if (sum == 13) {
@@ -92,13 +109,11 @@ public class PyramidGame {
             }
         });
 
-        bottomPanel.add(deckButton);
-        bottomPanel.add(activeDeckCardButton);
-
         // Agregar todo al frame
         frame.add(pyramidPanel, BorderLayout.CENTER);
-        frame.add(bottomPanel, BorderLayout.SOUTH);
+        frame.add(rightPanel, BorderLayout.EAST);
         frame.setVisible(true);
+
     }
 
 
@@ -176,10 +191,29 @@ public class PyramidGame {
     }
 
     private void removeSelectedCards() {
-        for (JButton button : selectedButtons) {
-            button.setEnabled(false); // Desactivar botón
-            button.setText(""); // Quitar texto de la carta
-            button.setBackground(null); // Restaurar fondo
+
+        for (int i = 0; i < selectedCards.size(); i++) {
+            Card card = selectedCards.get(i);
+            JButton button = selectedButtons.get(i);
+
+            // Si la carta está en la pirámide, la removemos visual y lógicamente
+            if (card.getRow() != -1) {
+                button.setEnabled(false);
+                button.setText("");
+                button.setBackground(null);
+
+                for (int row = 0; row < pyramid.size(); row++) {
+                    List<Card> currentRow = pyramid.get(row);
+                    if (currentRow.contains(card)) {
+                        currentRow.set(currentRow.indexOf(card), null);
+                        break;
+                    }
+                }
+            } else {
+                // Si es del mazo auxiliar, simplemente deseleccionamos
+                button.setBackground(null);
+                button.setVisible(false);
+            }
         }
 
         for (Card card : selectedCards) {
