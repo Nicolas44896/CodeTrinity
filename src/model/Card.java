@@ -1,23 +1,30 @@
-// Clase para representar una carta
+package model;
+
 public class Card {
     private final String suit;
     private final int value;
-    private int row; //nuevo
+    private int row;
 
     public Card(String suit, int value, int row) {
         this.suit = suit;
         this.value = value;
         this.row = row;
     }
-    // Getters y Setters nuevos
-    public int getRow(){
-        return row;
-    }
-    public void setRow(int row){
-        this.row = row;
-    }
+
     public int getValue() {
         return value;
+    }
+
+    public String getSuit() {
+        return suit;
+    }
+
+    public int getRow() {
+        return row;
+    }
+
+    public void setRow(int row) {
+        this.row = row;
     }
 
     @Override
