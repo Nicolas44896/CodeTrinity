@@ -10,7 +10,10 @@ import java.util.*;
 import java.util.List;
 import java.util.ArrayDeque;
 import java.util.Deque;
-
+import javax.sound.sampled.AudioInputStream;
+import javax.sound.sampled.AudioSystem;
+import javax.sound.sampled.Clip;
+import java.io.File;
 public class PyramidController {
     private final PyramidModel model;
     private final PyramidView view;
@@ -84,7 +87,17 @@ public class PyramidController {
     }
 
 
-
+    private void playSound(String soundFile) {
+        try {
+            File file = new File(soundFile);
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+        } catch (Exception e) {
+            System.err.println("Error al reproducir el sonido: " + e.getMessage());
+        }
+    }
 
     private void handleCardSelection(Card card, JButton button) {
         if (card == null) return;
@@ -169,6 +182,7 @@ public class PyramidController {
 
         selectedCards.clear();
         selectedButtons.clear();
+        playSound("C:/Users/mateo/OneDrive/Escritorio/INGENIERIA/OneDrive/Escritorio/INGENIERIA/4TO/1ER SEMESTRE/INGENIERIA EN SOFTWARE/TP_INGSOFT/CodeTrinity/src/sonido-correcto-331225.wav");
     }
 
 
