@@ -93,7 +93,10 @@ public class PyramidController {
             selectedCards.remove(card);
             selectedButtons.remove(button);
             button.setBackground(null);
-        } else if (selectedCards.size() < 2 && (card.getRow() == -1 || model.isCardFree(card))) {
+            return;
+        }
+
+        if (selectedCards.size() < 2 && (card.getRow() == -1 || model.isCardFree(card))) {
             selectedCards.add(card);
             selectedButtons.add(button);
             button.setBackground(Color.YELLOW);
@@ -102,18 +105,39 @@ public class PyramidController {
             return;
         }
 
-        if (card.getValue() == 13) {
+        // Caso de eliminación directa de una sola carta de valor 13
+        if (selectedCards.size() == 1 && selectedCards.get(0).getValue() == 13 && !selectedCards.get(0).isComodin()) {
             removeSelectedCards();
-        } else if (selectedCards.size() == 2) {
-            int sum = selectedCards.get(0).getValue() + selectedCards.get(1).getValue();
-            if (sum == 13) {
+            return;
+        }
+
+        if (selectedCards.size() == 2) {
+            Card c1 = selectedCards.get(0);
+            Card c2 = selectedCards.get(1);
+
+            boolean isComodincard1 = c1.isComodin();
+            boolean isComodincard2 = c2.isComodin();
+
+            if (isComodincard1 && isComodincard2) {
+                view.showMessage("No se pueden combinar dos Comodines.");
+                clearSelection();
+            } else if (isComodincard1 || isComodincard2) {
+                Card cartaNormal = isComodincard1 ? c2 : c1;
+                if (cartaNormal.getValue() < 13) {
+                    removeSelectedCards();
+                } else {
+                    view.showMessage("El Comodín no puede combinarse con el 13.");
+                    clearSelection();
+                }
+            } else if (c1.getValue() + c2.getValue() == 13) {
                 removeSelectedCards();
             } else {
-                view.showMessage("Las cartas no suman 13");
+                view.showMessage("Las cartas no suman 13.");
                 clearSelection();
             }
         }
     }
+
 
     private void removeSelectedCards() {
         for (int i = 0; i < selectedCards.size(); i++) {
