@@ -182,7 +182,7 @@ public class PyramidController {
 
         selectedCards.clear();
         selectedButtons.clear();
-        playSound("src/sonido-correcto-331225.wav");
+        playSound("assets/sonido_correcto.wav");
     }
 
 

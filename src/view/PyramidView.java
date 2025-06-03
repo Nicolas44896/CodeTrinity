@@ -11,8 +11,9 @@ public class PyramidView {
     private final JPanel rightPanel = new JPanel();
     private final JButton auxDeckButton = new JButton("Mazo Auxiliar");
     private final JButton activeCardButton = new JButton("Carta activa");
+    private static PyramidView instance;
 
-    public PyramidView() {
+    private PyramidView() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setSize(800, 600);
         frame.setLayout(new BorderLayout());
@@ -62,5 +63,12 @@ public class PyramidView {
         button.setText("");
         button.setEnabled(false);
         button.setBackground(null);
+    }
+
+    public static PyramidView getInstance() {
+        if (instance == null) {
+            instance = new PyramidView();
+        }
+        return instance;
     }
 }
