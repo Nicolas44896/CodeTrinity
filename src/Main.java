@@ -5,7 +5,7 @@ import view.PyramidView;
 public class Main {
     public static void main(String[] args) {
         PyramidModel model = new PyramidModel();
-        PyramidView view = new PyramidView();
+        PyramidView view = PyramidView.getInstance();
         new PyramidController(model, view);
     }
 }

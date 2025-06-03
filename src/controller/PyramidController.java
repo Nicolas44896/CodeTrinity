@@ -14,6 +14,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;
+
 public class PyramidController {
     private final PyramidModel model;
     private final PyramidView view;
@@ -36,6 +37,7 @@ public class PyramidController {
 
         for (int row = 0; row < pyramid.size(); row++) {
             JPanel rowPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            rowPanel.setOpaque(false); // Hacer el panel de fila transparente
             for (int col = 0; col <= row; col++) {
                 Card card = pyramid.get(row).get(col);
                 JButton cardButton = view.createCardButton(card);
@@ -54,7 +56,6 @@ public class PyramidController {
                 // Aviso que se terminó el mazo auxiliar
                 JOptionPane.showMessageDialog(view.getFrame(),
                         "Se llegó al final del mazo auxiliar. El mazo se recargará.");
-
                 // Restauramos las cartas al mazo
                 List<Card> recycled = new ArrayList<>(auxiliaryDiscardPile);
                 Collections.reverse(recycled);
@@ -65,14 +66,17 @@ public class PyramidController {
 
             JButton activeCardButton = view.getActiveCardButton();
 
+
             if (nextCard != null) {
                 if (currentDeckCard != null) {
                     auxiliaryDiscardPile.push(currentDeckCard);
                 }
                 currentDeckCard = nextCard;
                 currentDeckCard.setRow(-1);
-                activeCardButton.setText(currentDeckCard.toString());
+                activeCardButton.setText(view.formatCardLabel(currentDeckCard));
+                activeCardButton.setPreferredSize(new Dimension(20, 100));
                 activeCardButton.setVisible(true);
+
             } else {
                 currentDeckCard = null;
                 activeCardButton.setText("Sin cartas");
@@ -114,6 +118,7 @@ public class PyramidController {
             selectedButtons.add(button);
             button.setBackground(Color.YELLOW);
         } else {
+            playSound("assets/sonido_incorrecto.wav");
             view.showMessage("Carta no válida.");
             return;
         }
@@ -132,21 +137,25 @@ public class PyramidController {
             boolean isComodincard2 = c2.isComodin();
 
             if (isComodincard1 && isComodincard2) {
-                view.showMessage("No se pueden combinar dos Comodines.");
+                playSound("assets/sonido_incorrecto.wav");
+                view.showMessage("No se pueden combinar dos Comodines");
                 clearSelection();
             } else if (isComodincard1 || isComodincard2) {
                 Card cartaNormal = isComodincard1 ? c2 : c1;
                 if (cartaNormal.getValue() < 13) {
                     removeSelectedCards();
                 } else {
-                    view.showMessage("El Comodín no puede combinarse con el 13.");
+                    playSound("assets/sonido_incorrecto.wav");
+                    view.showMessage("El Comodín no puede combinarse con el 13");
                     clearSelection();
                 }
             } else if (c1.getValue() + c2.getValue() == 13) {
                 removeSelectedCards();
             } else {
-                view.showMessage("Las cartas no suman 13.");
+                playSound("assets/sonido_incorrecto.wav");
+                view.showMessage("Las cartas no suman 13");
                 clearSelection();
+
             }
         }
     }
@@ -169,7 +178,7 @@ public class PyramidController {
 
                 if (!auxiliaryDiscardPile.isEmpty()) {
                     currentDeckCard = auxiliaryDiscardPile.pop();
-                    view.getActiveCardButton().setText(currentDeckCard.toString());
+                    view.getActiveCardButton().setText(view.formatCardLabel(currentDeckCard));
                     view.getActiveCardButton().setVisible(true);
                 } else {
                     currentDeckCard = null;
@@ -179,10 +188,9 @@ public class PyramidController {
                 }
             }
         }
-
         selectedCards.clear();
         selectedButtons.clear();
-        playSound("src/sonido-correcto-331225.wav");
+        playSound("assets/sonido_correcto.wav");
     }
 
 

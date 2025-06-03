@@ -5,6 +5,7 @@ public class Card {
     private final int value;
     private int row;
     public final boolean isComodin;
+
     public Card(String suit, int value, int row, boolean isComodin) {
         this.suit = suit;
         this.value = value;
@@ -19,9 +20,11 @@ public class Card {
     public String getSuit() {
         return suit;
     }
+
     public boolean isComodin() {
         return isComodin;
     }
+
     public int getRow() {
         return row;
     }
@@ -30,12 +33,4 @@ public class Card {
         this.row = row;
     }
 
-    @Override
-    public String toString() {
-        if(isComodin){
-            return isComodin ? "JOKER" : value + " of " + suit;
-        }else {
-            return value + " of " + suit;
-        }
-    }
 }
