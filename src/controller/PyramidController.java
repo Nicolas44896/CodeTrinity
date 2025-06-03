@@ -182,7 +182,7 @@ public class PyramidController {
 
         selectedCards.clear();
         selectedButtons.clear();
-        playSound("C:/Users/mateo/OneDrive/Escritorio/INGENIERIA/OneDrive/Escritorio/INGENIERIA/4TO/1ER SEMESTRE/INGENIERIA EN SOFTWARE/TP_INGSOFT/CodeTrinity/src/sonido-correcto-331225.wav");
+        playSound("src/sonido-correcto-331225.wav");
     }
 
 
