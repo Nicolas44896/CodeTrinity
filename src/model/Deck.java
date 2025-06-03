@@ -8,12 +8,15 @@ public class Deck {
     private final List<Card> cards = new ArrayList<>();
 
     public Deck() {
-        String[] suits = {"Hearts", "Diamonds", "Clubs", "Spades"};
+        String[] suits = {"♠", "♥", "♦", "♣"};
         for (String suit : suits) {
             for (int i = 1; i <= 13; i++) {
-                cards.add(new Card(suit, i, 0));
+                cards.add(new Card(suit, i, 0, false));
             }
         }
+        cards.add(new Card("★", 0, 0, true));
+        cards.add(new Card("★", 0, 0, true));
+
         shuffle();
     }
 
