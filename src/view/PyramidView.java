@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 
 import model.Card;
+import model.PyramidModel;
 
 public class PyramidView {
     private final JFrame frame = new JFrame("Pyramid Card Game");
@@ -12,12 +13,15 @@ public class PyramidView {
     private final JButton activeCardButton = new JButton("Carta activa");
     private final JButton auxDeckButton = crearMazoAuxiliarButton();
     private final JButton jokerButton = crearJokerButton();
-    private final JButton restartButton = new JButton("Restart");;
+    private final JButton restartButton = new JButton("Restart");
     private final Dimension cardDimension = new Dimension(60, 100);
     private final JPanel startMenuPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20)); // Cambio aquí
-    private final JButton startButton = new JButton("Start Game");
-    private final JButton exitButton = new JButton("Exit");
-    private final JButton exitGameButton = new JButton("Exit game");
+    private final JButton startButton = new JButton("Iniciar Juego");
+    private final JButton exitButton = new JButton("Salir");
+    private final JButton exitGameButton = new JButton("Salir del Juego");
+    private final Image backgroundImage = new ImageIcon("assets/fondo5.jpg").getImage();
+    private final BackgroundPanel backgroundPanel = new BackgroundPanel(backgroundImage);
+
 
     private static PyramidView instance;
 
@@ -36,7 +40,6 @@ public class PyramidView {
         frame.setLayout(new BorderLayout());
         frame.setLocationRelativeTo(null);  // Centrar ventana
     }
-
 
     private void setupBackground() {
         ImageIcon bgIcon = new ImageIcon("assets/fondo5.jpg");
@@ -170,8 +173,11 @@ public class PyramidView {
     }
 
     public JButton createCardButton(Card card) {
-        JButton button = new JButton(formatCardLabel(card));
-        button.setPreferredSize(cardDimension);
+        JButton button = new JButton(formatCardLabel(card)); // o lo que uses como texto
+        Dimension fixedSize = new Dimension(60, 90);
+        button.setPreferredSize(fixedSize);
+        button.setMinimumSize(fixedSize);
+        button.setMaximumSize(fixedSize);
         return button;
     }
 
@@ -203,40 +209,63 @@ public class PyramidView {
     }
 
     public void startGamePanel() {
-        ImageIcon bgIcon = new ImageIcon("assets/fondo5.jpg");
-        BackgroundPanel backgroundPanel = new BackgroundPanel(bgIcon.getImage());
-        backgroundPanel.setLayout(new BorderLayout());  // Usamos BorderLayout para ocupar todo el espacio
+        backgroundPanel.removeAll();
 
         JPanel pyramidWrapper = new JPanel(new BorderLayout());
         pyramidWrapper.setOpaque(false);
         pyramidWrapper.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 40));
         pyramidWrapper.add(pyramidPanel, BorderLayout.CENTER);
 
-        JPanel gamePanel = new JPanel(new BorderLayout());
-        gamePanel.setOpaque(false);
-
         rightPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
         rightPanel.setPreferredSize(new Dimension(220, 0));
 
+        JPanel gamePanel = new JPanel(new BorderLayout());
+        gamePanel.setOpaque(false);
         gamePanel.add(pyramidWrapper, BorderLayout.CENTER);
         gamePanel.add(rightPanel, BorderLayout.EAST);
 
-        // Mostrar solo los paneles del juego
         startMenuPanel.setVisible(false);
         pyramidPanel.setVisible(true);
         rightPanel.setVisible(true);
-        activeCardButton.setVisible(true);
+        activeCardButton.setVisible(false);
         auxDeckButton.setVisible(true);
         jokerButton.setVisible(true);
         restartButton.setVisible(true);
         exitGameButton.setVisible(true);
 
-
-        backgroundPanel.add(gamePanel, BorderLayout.CENTER);  // Colocar gamePanel en el centro del fondo
-
+        backgroundPanel.add(gamePanel, BorderLayout.CENTER);
         frame.setContentPane(backgroundPanel);
         frame.revalidate();
         frame.repaint();
+    }
+
+    public JFrame getMainFrame() {
+        return frame;
+    }
+
+    public void showStartMenu() {
+        backgroundPanel.removeAll();
+
+        startMenuPanel.setVisible(true);
+        pyramidPanel.setVisible(false);
+        rightPanel.setVisible(false);
+        activeCardButton.setVisible(false);
+
+        backgroundPanel.add(startMenuPanel, BorderLayout.CENTER);
+        frame.setContentPane(backgroundPanel);
+        frame.revalidate();
+        frame.repaint();
+    }
+
+    public void setupGameView(PyramidModel model) {
+        JPanel pyramidPanel = getPyramidPanel();
+        pyramidPanel.removeAll();
+        pyramidPanel.revalidate();
+        pyramidPanel.repaint();
+    }
+
+    public JPanel getStartMenuPanel() {
+        return startMenuPanel;
     }
 
 

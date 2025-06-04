@@ -1,6 +1,7 @@
 package controller;
 
 import model.*;
+import model.Observer;
 import view.*;
 
 import javax.swing.*;
@@ -15,8 +16,8 @@ import javax.sound.sampled.Clip;
 import java.io.File;
 
 
-public class PyramidController {
-    private final PyramidModel model;
+public class PyramidController implements Observer {
+    private PyramidModel model;
     private final PyramidView view;
     private final List<Card> selectedCards = new ArrayList<>();
     private final List<JButton> selectedButtons = new ArrayList<>();
@@ -25,14 +26,18 @@ public class PyramidController {
     private int cantJoker = 2; // Cantidad de comodines disponibles
     private int cantReverse = 3;
 
-
+    // PyramidController.java
     public PyramidController(PyramidModel model, PyramidView view) {
         this.model = model;
         this.view = view;
-        this.model.setupPyramid();
-        setupView();
-        setupListeners();
-        joker();
+
+        model.addObserver(this); // siempre primero para recibir updates
+
+        setupListeners();        // seteo listeners una sola vez
+
+        initialize();            // inicializo todo el estado y vista
+
+        joker();                 // setup comodín (si es necesario)
     }
 
     private void setupView() {
@@ -108,7 +113,7 @@ public class PyramidController {
         });
 
         view.getStartButton().addActionListener(e -> {
-            startGame();
+            startNewGame();
         });
 
         view.getExitButton().addActionListener(e -> System.exit(0));
@@ -116,8 +121,21 @@ public class PyramidController {
         view.getExitGameButton().addActionListener(e -> System.exit(0));
 
         view.getRestartButton().addActionListener(e -> {
-            restartGame();
+            // Reiniciar el modelo y estado
+            model = new PyramidModel();
+
+            // Limpiar el estado interno del controlador si hay algo que resetear
+            currentDeckCard = null;
+            auxiliaryDiscardPile.clear();
+            cantJoker = 2;
+            cantReverse = 3;
+            selectedCards.clear();
+            selectedButtons.clear();
+
+            // Resetear la vista para que esté limpia y vuelva al menú principal
+            view.showStartMenu();
         });
+
 
     }
 
@@ -135,6 +153,11 @@ public class PyramidController {
     }
 
     private void handleCardSelection(Card card, JButton button) throws Exception {
+        if (model.isGameOver()) {
+            String message = model.isPyramidEmpty() ? "¡Ganaste!" : "Juego terminado. ¡Intenta otra vez!";
+            JOptionPane.showMessageDialog(view.getMainFrame(), message);
+            returnToMainMenu();
+        }
         if (card == null) return;
 
         if (selectedCards.contains(card)) {
@@ -261,10 +284,73 @@ public class PyramidController {
         return true;
     }
 
-    private void startGame(){
-        view.startGamePanel();
+    public void startNewGame() {
+        model = new PyramidModel();  // nuevo modelo = juego nuevo
+        initialize();                // conectar todo
+        view.startGamePanel();       // ir al panel de juego
     }
 
-    private void restartGame(){
+    @Override
+    public void update() {
+        // Cuando el modelo cambia, se ejecuta este método
+        // Aquí puedes redibujar la pirámide, actualizar botones, etc.
+        refreshPyramidView();
     }
+
+    private void refreshPyramidView() {
+        JPanel pyramidPanel = view.getPyramidPanel();
+        pyramidPanel.removeAll(); // Elimina la vista anterior
+
+        List<List<Card>> pyramid = model.getPyramid();
+        for (int row = 0; row < pyramid.size(); row++) {
+            JPanel rowPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
+            rowPanel.setOpaque(false);
+            for (int col = 0; col <= row; col++) {
+                Card card = pyramid.get(row).get(col);
+                if (card != null) {
+                    JButton cardButton = view.createCardButton(card);
+                    cardButton.addActionListener(e -> {
+                        try {
+                            handleCardSelection(card, cardButton);
+                        } catch (Exception ex) {
+                            ex.printStackTrace();
+                        }
+                    });
+                    rowPanel.add(cardButton);
+                } else {
+                    rowPanel.add(Box.createRigidArea(new Dimension(60, 100))); // Espacio vacío
+                }
+            }
+            pyramidPanel.add(rowPanel);
+        }
+
+        pyramidPanel.revalidate();
+        pyramidPanel.repaint();
+    }
+
+    private void returnToMainMenu() {
+        JFrame frame = view.getMainFrame();
+        JPanel mainMenu = view.getStartMenuPanel();  // cambio aquí
+
+        frame.getContentPane().removeAll();
+        frame.setContentPane(mainMenu);
+        frame.revalidate();
+        frame.repaint();
+    }
+
+    public void initialize() {
+        currentDeckCard = null;
+        auxiliaryDiscardPile.clear();
+        cantJoker = 2;
+        cantReverse = 3;
+        model.setupPyramid();
+        view.setupGameView(model);
+        view.getJokerButton().setVisible(true);
+        view.getJokerButton().setEnabled(true);
+        clearSelection();
+        setupView();
+    }
+
+
+
 }
