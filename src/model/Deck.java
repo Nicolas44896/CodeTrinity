@@ -14,9 +14,6 @@ public class Deck {
                 cards.add(new Card(suit, i, 0, false));
             }
         }
-        cards.add(new Card("★", 0, 0, true));
-        cards.add(new Card("★", 0, 0, true));
-
         shuffle();
     }
 
