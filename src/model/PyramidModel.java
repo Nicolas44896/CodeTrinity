@@ -7,8 +7,6 @@ public class PyramidModel {
     private final List<List<Card>> pyramid = new ArrayList<>();
     private final Deck deck = new Deck();
 
-
-
     public void setupPyramid() {
         for (int row = 0; row < 7; row++) {
             List<Card> currentRow = new ArrayList<>();

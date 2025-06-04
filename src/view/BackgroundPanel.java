@@ -8,7 +8,8 @@ public class BackgroundPanel extends JPanel {
 
     public BackgroundPanel(Image image) {
         this.backgroundImage = image;
-        setLayout(new BorderLayout());
+        setOpaque(false);  // Muy importante para que el layout funcione bien
+        setLayout(new BorderLayout());  // También puedes poner BorderLayout pero evita que limite tamaño
     }
 
     @Override

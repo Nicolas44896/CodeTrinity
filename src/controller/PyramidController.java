@@ -5,7 +5,6 @@ import view.*;
 
 import javax.swing.*;
 import java.awt.*;
-import java.awt.event.ActionEvent;
 import java.util.*;
 import java.util.List;
 import java.util.ArrayDeque;
@@ -14,6 +13,7 @@ import javax.sound.sampled.AudioInputStream;
 import javax.sound.sampled.AudioSystem;
 import javax.sound.sampled.Clip;
 import java.io.File;
+
 
 public class PyramidController {
     private final PyramidModel model;
@@ -61,14 +61,14 @@ public class PyramidController {
     private void setupListeners() {
         view.getAuxDeckButton().addActionListener(e -> {
             Card nextCard = model.getDeck().drawCard();
-            clearSelection();;
-            if(cantReverse == -1){
-                JOptionPane.showMessageDialog(view.getFrame(),"No se pueden dar más vueltas al mazo auxiliar.");
+            clearSelection();
+            ;
+            if (cantReverse == -1) {
+                JOptionPane.showMessageDialog(view.getFrame(), "No se pueden dar más vueltas al mazo auxiliar.");
                 view.getAuxDeckButton().setEnabled(false);
                 return;
-            }
-            else if (nextCard == null && !auxiliaryDiscardPile.isEmpty()) {
-                JOptionPane.showMessageDialog(view.getFrame(),"Se llegó al final del mazo auxiliar. El mazo se recargará.");
+            } else if (nextCard == null && !auxiliaryDiscardPile.isEmpty()) {
+                JOptionPane.showMessageDialog(view.getFrame(), "Se llegó al final del mazo auxiliar. El mazo se recargará.");
                 cantReverse--;
                 List<Card> recycled = new ArrayList<>(auxiliaryDiscardPile);
                 Collections.reverse(recycled);
@@ -106,18 +106,30 @@ public class PyramidController {
                 throw new RuntimeException(ex);
             }
         });
+
+        view.getStartButton().addActionListener(e -> {
+            startGame();
+        });
+
+        view.getExitButton().addActionListener(e -> System.exit(0));
+
+        view.getExitGameButton().addActionListener(e -> System.exit(0));
+
+        view.getRestartButton().addActionListener(e -> {
+            restartGame();
+        });
+
     }
 
-
     private void joker() {
-        JButton jokerButton = view.jokerButton();
+        JButton jokerButton = view.getJokerButton();
         jokerButton.addActionListener(e -> {
-                Card jokerCard = new Card("Joker", 0, -1, true);
-                try {
-                    handleCardSelection(jokerCard, jokerButton);
-                } catch (Exception ex) {
-                    throw new RuntimeException(ex);
-                }
+            Card jokerCard = new Card("Joker", 0, -1, true);
+            try {
+                handleCardSelection(jokerCard, jokerButton);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
         });
 
     }
@@ -169,7 +181,7 @@ public class PyramidController {
         }
     }
 
-    private void removeSelectedCards() throws Exception{
+    private void removeSelectedCards() throws Exception {
         for (int i = 0; i < selectedCards.size(); i++) {
             Card card = selectedCards.get(i);
             JButton button = selectedButtons.get(i);
@@ -181,10 +193,10 @@ public class PyramidController {
                 model.removeCardFromPyramid(card);
             } else {
                 // Si es la carta activa del mazo auxiliar
-                    button.setBackground(null);
-                    button.setVisible(false);
+                button.setBackground(null);
+                button.setVisible(false);
 
-                if(!card.isComodin()) {
+                if (!card.isComodin()) {
                     if (!auxiliaryDiscardPile.isEmpty()) {
                         currentDeckCard = auxiliaryDiscardPile.pop();
                         view.getActiveCardButton().setText(view.formatCardLabel(currentDeckCard));
@@ -193,26 +205,32 @@ public class PyramidController {
                         currentDeckCard = null;
                         view.getActiveCardButton().setText("");
                         view.getActiveCardButton().setVisible(true);
-                        if(model.getDeck().isEmpty()){
+                        if (model.getDeck().isEmpty()) {
                             view.getAuxDeckButton().setEnabled(false);
                         }
                     }
-                } else{
+                } else {
                     cantJoker--;
-                    if(cantJoker == 0) {
-                        view.jokerButton().setVisible(false);
-                        view.jokerButton().setEnabled(false);
+                    if (cantJoker == 0) {
+                        view.getJokerButton().setVisible(false);
+                        view.getJokerButton().setEnabled(false);
                     }
                     button.setVisible(true);
                 }
             }
+        }
+        if (isPyramidEmpty()) {
+            view.showMessage("¡Felicidades! Has completado la pirámide.");
+            view.getAuxDeckButton().setEnabled(false);
+            view.getActiveCardButton().setEnabled(false);
+            view.getJokerButton().setEnabled(false);
         }
         selectedCards.clear();
         selectedButtons.clear();
         playSound("assets/sonido_correcto.wav");
     }
 
-    private void playSound(String file) throws Exception{
+    private void playSound(String file) throws Exception {
         try {
             AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(file));
             Clip clip = AudioSystem.getClip();
@@ -230,5 +248,23 @@ public class PyramidController {
         }
         selectedCards.clear();
         selectedButtons.clear();
+    }
+
+    private boolean isPyramidEmpty() {
+        for (List<Card> row : model.getPyramid()) {
+            for (Card card : row) {
+                if (card != null) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    private void startGame(){
+        view.startGamePanel();
+    }
+
+    private void restartGame(){
     }
 }
