@@ -22,6 +22,9 @@ public class PyramidController {
     private final List<JButton> selectedButtons = new ArrayList<>();
     private Card currentDeckCard;
     private final Deque<Card> auxiliaryDiscardPile = new ArrayDeque<>();
+    private int cantJoker = 2; // Cantidad de comodines disponibles
+    private int cantReverse = 3;
+
 
     public PyramidController(PyramidModel model, PyramidView view) {
         this.model = model;
@@ -29,6 +32,7 @@ public class PyramidController {
         this.model.setupPyramid();
         setupView();
         setupListeners();
+        joker();
     }
 
     private void setupView() {
@@ -41,7 +45,13 @@ public class PyramidController {
             for (int col = 0; col <= row; col++) {
                 Card card = pyramid.get(row).get(col);
                 JButton cardButton = view.createCardButton(card);
-                cardButton.addActionListener(e -> handleCardSelection(card, cardButton));
+                cardButton.addActionListener(e -> {
+                    try {
+                        handleCardSelection(card, cardButton);
+                    } catch (Exception ex) {
+                        throw new RuntimeException(ex);
+                    }
+                });
                 rowPanel.add(cardButton);
             }
             pyramidPanel.add(rowPanel);
@@ -51,18 +61,22 @@ public class PyramidController {
     private void setupListeners() {
         view.getAuxDeckButton().addActionListener(e -> {
             Card nextCard = model.getDeck().drawCard();
-
-            if (nextCard == null && !auxiliaryDiscardPile.isEmpty()) {
-                // Aviso que se terminó el mazo auxiliar
-                JOptionPane.showMessageDialog(view.getFrame(),
-                        "Se llegó al final del mazo auxiliar. El mazo se recargará.");
-                // Restauramos las cartas al mazo
+            clearSelection();;
+            if(cantReverse == -1){
+                JOptionPane.showMessageDialog(view.getFrame(),"No se pueden dar más vueltas al mazo auxiliar.");
+                view.getAuxDeckButton().setEnabled(false);
+                return;
+            }
+            else if (nextCard == null && !auxiliaryDiscardPile.isEmpty()) {
+                JOptionPane.showMessageDialog(view.getFrame(),"Se llegó al final del mazo auxiliar. El mazo se recargará.");
+                cantReverse--;
                 List<Card> recycled = new ArrayList<>(auxiliaryDiscardPile);
                 Collections.reverse(recycled);
                 model.getDeck().reloadDeck(recycled);
                 auxiliaryDiscardPile.clear();
                 nextCard = model.getDeck().drawCard();
             }
+
 
             JButton activeCardButton = view.getActiveCardButton();
 
@@ -86,24 +100,29 @@ public class PyramidController {
 
         view.getActiveCardButton().addActionListener(e -> {
             JButton button = view.getActiveCardButton();
-            handleCardSelection(currentDeckCard, button);
+            try {
+                handleCardSelection(currentDeckCard, button);
+            } catch (Exception ex) {
+                throw new RuntimeException(ex);
+            }
         });
     }
 
 
-    private void playSound(String soundFile) {
-        try {
-            File file = new File(soundFile);
-            AudioInputStream audioStream = AudioSystem.getAudioInputStream(file);
-            Clip clip = AudioSystem.getClip();
-            clip.open(audioStream);
-            clip.start();
-        } catch (Exception e) {
-            System.err.println("Error al reproducir el sonido: " + e.getMessage());
-        }
+    private void joker() {
+        JButton jokerButton = view.jokerButton();
+        jokerButton.addActionListener(e -> {
+                Card jokerCard = new Card("Joker", 0, -1, true);
+                try {
+                    handleCardSelection(jokerCard, jokerButton);
+                } catch (Exception ex) {
+                    throw new RuntimeException(ex);
+                }
+        });
+
     }
 
-    private void handleCardSelection(Card card, JButton button) {
+    private void handleCardSelection(Card card, JButton button) throws Exception {
         if (card == null) return;
 
         if (selectedCards.contains(card)) {
@@ -124,7 +143,7 @@ public class PyramidController {
         }
 
         // Caso de eliminación directa de una sola carta de valor 13
-        if (selectedCards.size() == 1 && selectedCards.get(0).getValue() == 13 && !selectedCards.get(0).isComodin()) {
+        if (selectedCards.size() == 1 && selectedCards.get(0).getValue() == 13) {
             removeSelectedCards();
             return;
         }
@@ -133,22 +152,12 @@ public class PyramidController {
             Card c1 = selectedCards.get(0);
             Card c2 = selectedCards.get(1);
 
-            boolean isComodincard1 = c1.isComodin();
-            boolean isComodincard2 = c2.isComodin();
-
-            if (isComodincard1 && isComodincard2) {
-                playSound("assets/sonido_incorrecto.wav");
-                view.showMessage("No se pueden combinar dos Comodines");
+            if (c1.isComodin() && c2.isComodin()) {
                 clearSelection();
-            } else if (isComodincard1 || isComodincard2) {
-                Card cartaNormal = isComodincard1 ? c2 : c1;
-                if (cartaNormal.getValue() < 13) {
-                    removeSelectedCards();
-                } else {
-                    playSound("assets/sonido_incorrecto.wav");
-                    view.showMessage("El Comodín no puede combinarse con el 13");
-                    clearSelection();
-                }
+            } else if (c1.isComodin() && c2.getValue() == 13) {
+                clearSelection();
+            } else if (c1.isComodin() || c2.isComodin()) {
+                removeSelectedCards();
             } else if (c1.getValue() + c2.getValue() == 13) {
                 removeSelectedCards();
             } else {
@@ -160,8 +169,7 @@ public class PyramidController {
         }
     }
 
-
-    private void removeSelectedCards() {
+    private void removeSelectedCards() throws Exception{
         for (int i = 0; i < selectedCards.size(); i++) {
             Card card = selectedCards.get(i);
             JButton button = selectedButtons.get(i);
@@ -173,18 +181,29 @@ public class PyramidController {
                 model.removeCardFromPyramid(card);
             } else {
                 // Si es la carta activa del mazo auxiliar
-                button.setBackground(null);
-                button.setVisible(false);
+                    button.setBackground(null);
+                    button.setVisible(false);
 
-                if (!auxiliaryDiscardPile.isEmpty()) {
-                    currentDeckCard = auxiliaryDiscardPile.pop();
-                    view.getActiveCardButton().setText(view.formatCardLabel(currentDeckCard));
-                    view.getActiveCardButton().setVisible(true);
-                } else {
-                    currentDeckCard = null;
-                    view.getActiveCardButton().setText("");
-                    view.getActiveCardButton().setVisible(false);
-                    view.getAuxDeckButton().setEnabled(false);
+                if(!card.isComodin()) {
+                    if (!auxiliaryDiscardPile.isEmpty()) {
+                        currentDeckCard = auxiliaryDiscardPile.pop();
+                        view.getActiveCardButton().setText(view.formatCardLabel(currentDeckCard));
+                        view.getActiveCardButton().setVisible(true);
+                    } else {
+                        currentDeckCard = null;
+                        view.getActiveCardButton().setText("");
+                        view.getActiveCardButton().setVisible(true);
+                        if(model.getDeck().isEmpty()){
+                            view.getAuxDeckButton().setEnabled(false);
+                        }
+                    }
+                } else{
+                    cantJoker--;
+                    if(cantJoker == 0) {
+                        view.jokerButton().setVisible(false);
+                        view.jokerButton().setEnabled(false);
+                    }
+                    button.setVisible(true);
                 }
             }
         }
@@ -193,6 +212,17 @@ public class PyramidController {
         playSound("assets/sonido_correcto.wav");
     }
 
+    private void playSound(String file) throws Exception{
+        try {
+            AudioInputStream audioStream = AudioSystem.getAudioInputStream(new File(file));
+            Clip clip = AudioSystem.getClip();
+            clip.open(audioStream);
+            clip.start();
+        } catch (Exception e) {
+            e.printStackTrace();
+            throw new Exception("Error al reproducir el sonido: " + file);
+        }
+    }
 
     private void clearSelection() {
         for (JButton button : selectedButtons) {

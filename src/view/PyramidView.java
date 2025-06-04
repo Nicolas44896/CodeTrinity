@@ -2,7 +2,7 @@ package view;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.List;
+
 import model.Card;
 
 public class PyramidView {
@@ -13,6 +13,7 @@ public class PyramidView {
     private static PyramidView instance;
     private final JButton auxDeckButton = crearMazoAuxiliarButton();
     private final Dimension cardDimension = new Dimension(60, 100);
+    private final JButton jokerButton = crearJokerButton();
 
     private PyramidView() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -26,16 +27,24 @@ public class PyramidView {
         pyramidPanel.setLayout(new BoxLayout(pyramidPanel, BoxLayout.Y_AXIS));
         frame.add(pyramidPanel, BorderLayout.CENTER);
 
-        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-        rightPanel.add(Box.createVerticalGlue());
-        rightPanel.add(auxDeckButton);
-        rightPanel.add(Box.createVerticalStrut(10));
-        activeCardButton.setPreferredSize(cardDimension);
-        activeCardButton.setMaximumSize(cardDimension);
-        rightPanel.add(activeCardButton);
-        rightPanel.add(Box.createVerticalGlue());
-        auxDeckButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-        activeCardButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        // Replace the rightPanel layout setup in PyramidView's constructor:
+        rightPanel.setLayout(new GridBagLayout());
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.gridx = 0;
+        gbc.fill = GridBagConstraints.HORIZONTAL;
+        gbc.insets = new Insets(10, 0, 10, 0);
+
+        gbc.gridy = 0;
+        rightPanel.add(auxDeckButton, gbc);
+
+        gbc.gridy = 1;
+        gbc.insets = new Insets(10, 20, 10, 20);
+        rightPanel.add(activeCardButton, gbc);
+
+        gbc.gridy = 2;
+        gbc.insets = new Insets(10, 0, 10, 0);
+        rightPanel.add(jokerButton, gbc);
+
         frame.add(rightPanel, BorderLayout.EAST);
 
         pyramidPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 20));
@@ -85,6 +94,18 @@ public class PyramidView {
         button.setOpaque(false);
         return button;
     }
+    private JButton crearJokerButton() {
+        String label = "<html><center>Joker</center></html>";
+        JButton button = new JButton(label);
+        button.setPreferredSize(new Dimension(120, 40));
+        button.setOpaque(false);
+        return button;
+    }
+
+    public JButton jokerButton() {
+        return jokerButton;
+    }
+
 
     public static PyramidView getInstance() {
         if (instance == null) {
@@ -92,4 +113,5 @@ public class PyramidView {
         }
         return instance;
     }
+
 }
