@@ -28,6 +28,6 @@ jobs:
 
     - name: Ejecutar tests con JUnit 5
       run: |
-        java -jar lib/junit-platform-console-standalone-1.10.0.jar \
+        java -jar lib/junit-platform-console-standalone-1.13.0-javadoc.jar \
           --classpath out \
           --scan-class-path
