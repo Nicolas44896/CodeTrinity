@@ -36,7 +36,7 @@ public class PyramidView {
 
     private void setupFrame() {
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(1920, 1080);            // Mantén tamaño fijo
+        frame.setSize(1280, 1024);            // Mantén tamaño fijo
         frame.setLayout(new BorderLayout());
         frame.setLocationRelativeTo(null);  // Centrar ventana
     }
