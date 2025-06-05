@@ -3,10 +3,12 @@ name: Run Java Tests
 on:
   push:
     branches:
-      - develop
+      - Main
+      - Develop
   pull_request:
     branches:
-      - develop
+      - Main
+      - Develop
 
 
 jobs:
