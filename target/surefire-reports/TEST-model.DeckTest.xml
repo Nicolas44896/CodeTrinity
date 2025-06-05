@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="model.DeckTest" time="0.09" tests="5" errors="0" skipped="0" failures="0">
+<testsuite xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://maven.apache.org/surefire/maven-surefire-plugin/xsd/surefire-test-report-3.0.xsd" version="3.0" name="model.DeckTest" time="0.081" tests="5" errors="0" skipped="0" failures="0">
   <properties>
     <property name="java.specification.version" value="17"/>
     <property name="sun.cpu.isalist" value="amd64"/>
@@ -15,7 +15,7 @@
     <property name="sun.java.launcher" value="SUN_STANDARD"/>
     <property name="user.country" value="AR"/>
     <property name="sun.boot.library.path" value="C:\Program Files\Java\jdk-17\bin"/>
-    <property name="sun.java.command" value="C:\Users\nik01\AppData\Local\Temp\surefire8986954004136466102\surefirebooter-20250605141943500_3.jar C:\Users\nik01\AppData\Local\Temp\surefire8986954004136466102 2025-06-05T14-19-42_806-jvmRun1 surefire-20250605141943500_1tmp surefire_0-20250605141943500_2tmp"/>
+    <property name="sun.java.command" value="C:\Users\nik01\AppData\Local\Temp\surefire13649195847760999313\surefirebooter-20250605151951425_3.jar C:\Users\nik01\AppData\Local\Temp\surefire13649195847760999313 2025-06-05T15-19-51_228-jvmRun1 surefire-20250605151951425_1tmp surefire_0-20250605151951425_2tmp"/>
     <property name="jdk.debug" value="release"/>
     <property name="surefire.test.class.path" value="C:\Pyramid\CodeTrinity\target\test-classes;C:\Pyramid\CodeTrinity\target\classes;C:\Users\nik01\.m2\repository\org\junit\jupiter\junit-jupiter\5.10.0\junit-jupiter-5.10.0.jar;C:\Users\nik01\.m2\repository\org\junit\jupiter\junit-jupiter-api\5.10.0\junit-jupiter-api-5.10.0.jar;C:\Users\nik01\.m2\repository\org\opentest4j\opentest4j\1.3.0\opentest4j-1.3.0.jar;C:\Users\nik01\.m2\repository\org\junit\platform\junit-platform-commons\1.10.0\junit-platform-commons-1.10.0.jar;C:\Users\nik01\.m2\repository\org\apiguardian\apiguardian-api\1.1.2\apiguardian-api-1.1.2.jar;C:\Users\nik01\.m2\repository\org\junit\jupiter\junit-jupiter-params\5.10.0\junit-jupiter-params-5.10.0.jar;C:\Users\nik01\.m2\repository\org\junit\jupiter\junit-jupiter-engine\5.10.0\junit-jupiter-engine-5.10.0.jar;C:\Users\nik01\.m2\repository\org\junit\platform\junit-platform-engine\1.10.0\junit-platform-engine-1.10.0.jar;"/>
     <property name="sun.cpu.endian" value="little"/>
@@ -30,7 +30,7 @@
     <property name="line.separator" value="&#10;"/>
     <property name="java.vm.specification.vendor" value="Oracle Corporation"/>
     <property name="java.specification.name" value="Java Platform API Specification"/>
-    <property name="surefire.real.class.path" value="C:\Users\nik01\AppData\Local\Temp\surefire8986954004136466102\surefirebooter-20250605141943500_3.jar"/>
+    <property name="surefire.real.class.path" value="C:\Users\nik01\AppData\Local\Temp\surefire13649195847760999313\surefirebooter-20250605151951425_3.jar"/>
     <property name="user.script" value=""/>
     <property name="sun.management.compiler" value="HotSpot 64-Bit Tiered Compilers"/>
     <property name="java.runtime.version" value="17.0.6+9-LTS-190"/>
@@ -56,9 +56,9 @@
     <property name="sun.io.unicode.encoding" value="UnicodeLittle"/>
     <property name="java.class.version" value="61.0"/>
   </properties>
-  <testcase name="testReloadDeck" classname="model.DeckTest" time="0.039"/>
-  <testcase name="testDrawCard" classname="model.DeckTest" time="0.002"/>
+  <testcase name="testReloadDeck" classname="model.DeckTest" time="0.035"/>
+  <testcase name="testDrawCard" classname="model.DeckTest" time="0.001"/>
   <testcase name="testDeckInitialization" classname="model.DeckTest" time="0.007"/>
-  <testcase name="testUniqueCardsInDeck" classname="model.DeckTest" time="0.002"/>
+  <testcase name="testUniqueCardsInDeck" classname="model.DeckTest" time="0.001"/>
   <testcase name="testShuffle" classname="model.DeckTest" time="0.003"/>
 </testsuite>
