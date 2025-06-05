@@ -3,13 +3,12 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PyramidModel {
+public class PyramidModel extends Observable {
     private final List<List<Card>> pyramid = new ArrayList<>();
     private final Deck deck = new Deck();
 
-
-
     public void setupPyramid() {
+        pyramid.clear();
         for (int row = 0; row < 7; row++) {
             List<Card> currentRow = new ArrayList<>();
             for (int col = 0; col <= row; col++) {
@@ -19,6 +18,7 @@ public class PyramidModel {
             }
             pyramid.add(currentRow);
         }
+        notifyObservers();
     }
 
     public List<List<Card>> getPyramid() {
@@ -34,6 +34,7 @@ public class PyramidModel {
             int index = row.indexOf(card);
             if (index != -1) {
                 row.set(index, null);
+                notifyObservers(); // Notifica cambios
                 break;
             }
         }
@@ -58,4 +59,40 @@ public class PyramidModel {
 
         return abajoIzq == null && abajoDer == null;
     }
+
+    public boolean isGameOver() {
+        return noMoreMoves() || isPyramidEmpty();
+    }
+
+    public boolean canSelectAnyCard() {
+        for (List<Card> row : pyramid) {
+            for (Card card : row) {
+                if (card != null && isCardFree(card)) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    private boolean noMoreMoves() {
+        return !canSelectAnyCard() && deckIsEmpty();
+    }
+
+    public boolean isPyramidEmpty() {
+        for (List<Card> row : pyramid) {
+            for (Card card : row) {
+                if (card != null && isCardFree(card)) {
+                    return false;
+                }
+            }
+        }
+        return true;
+    }
+
+    public boolean deckIsEmpty() {
+        return deck.isEmpty();
+    }
+
+
 }

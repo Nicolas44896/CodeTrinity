@@ -33,5 +33,13 @@ public class Deck {
         Collections.shuffle(cards); // Si querés mezclar, si no, quitá esta línea
         this.cards.addAll(cards);
     }
+    // Métodos necesarios para las pruebas
+    public int getDeckSize() {
+        return cards.size();
+    }
+
+    public List<Card> getCards() {
+        return new ArrayList<>(cards);
+    }
 
 }
