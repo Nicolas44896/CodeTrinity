@@ -240,7 +240,7 @@ public class PyramidController implements Observer {
                     }
                     button.setVisible(true);
                 }
-            }
+            }g
         }
         if (isPyramidEmpty()) {
             view.showMessage("¡Felicidades! Has completado la pirámide.");

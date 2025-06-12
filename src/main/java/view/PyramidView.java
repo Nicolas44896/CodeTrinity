@@ -32,6 +32,8 @@ public class PyramidView {
         setupPyramidPanel();
         setupRightPanel();
         setupInitialVisibility();
+
+
     }
 
     private void setupFrame() {
@@ -194,9 +196,22 @@ public class PyramidView {
     }
 
     private JButton crearJokerButton() {
-        String label = "<html><center>Joker</center></html>";
-        JButton button = new JButton(label);
-        button.setPreferredSize(new Dimension(120, 40));
+        //String label = "<html><center>Joker</center></html>";
+        //JButton button = new JButton(label);
+        JButton button = new JButton();
+
+        // Cargamos imagen del joker
+        ImageIcon jokerIcon = new ImageIcon("assets/jokerCards.jpeg");
+        Image image = jokerIcon.getImage().getScaledInstance(60, 90, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(image);
+        button.setIcon(scaledIcon);
+        button.setPreferredSize(new Dimension(60, 90));
+        button.setPreferredSize(new Dimension(60, 90));
+        button.setMaximumSize(new Dimension(60,90));
+        button.setOpaque(false);
+        button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
         button.setOpaque(false);
         return button;
     }
