@@ -32,6 +32,8 @@ public class PyramidView {
         setupPyramidPanel();
         setupRightPanel();
         setupInitialVisibility();
+
+
     }
 
     private void setupFrame() {
@@ -82,7 +84,6 @@ public class PyramidView {
         pyramidPanel.setLayout(new BoxLayout(pyramidPanel, BoxLayout.Y_AXIS));
         pyramidPanel.setOpaque(false);
         pyramidPanel.setBorder(BorderFactory.createEmptyBorder(20, 20, 20, 40));
-
     }
 
     private void setupRightPanel() {
@@ -174,7 +175,7 @@ public class PyramidView {
 
     public JButton createCardButton(Card card) {
         JButton button = new JButton(formatCardLabel(card)); // o lo que uses como texto
-        Dimension fixedSize = new Dimension(60, 90);
+        Dimension fixedSize = new Dimension(70, 90);
         button.setPreferredSize(fixedSize);
         button.setMinimumSize(fixedSize);
         button.setMaximumSize(fixedSize);
@@ -182,7 +183,36 @@ public class PyramidView {
     }
 
     public String formatCardLabel(Card card) {
-        return "<html><center>" + card.getValue() + "<br>de<br>" + card.getSuit() + "</center></html>";
+        StringBuilder symbols = new StringBuilder();
+        String valueStr = "";
+        if (card.getValue() < 11 && card.getValue() > 1) {
+            valueStr = String.valueOf(card.getValue());
+            for (int i = 0; i < card.getValue(); i++) {
+                symbols.append(card.getSuit()).append(" ");
+            }
+        } else if (card.getValue() == 11) {
+            valueStr = "";
+            symbols.append("J");
+            symbols.append(card.getSuit());
+        } else if (card.getValue() == 12) {
+            valueStr = "";
+            symbols.append("Q");
+            symbols.append(card.getSuit());
+        } else if (card.getValue() == 13) {
+            valueStr = "";
+            symbols.append("K");
+            symbols.append(card.getSuit());
+        } else if (card.getValue() == 1 || card.getValue() == 14) {
+            valueStr = "";
+            symbols.append("A");
+            symbols.append(card.getSuit());
+        }
+        // Número en las esquinas superiores
+        return "<html><div style='text-align:center;'>"
+                + "<div style='font-size:10px; display:flex; justify-content:space-between;'>"
+                + "<span>" + valueStr  + "</span></div>"
+                + symbols.toString().trim() + "</div>"
+                + "</div></html>";
     }
 
     private JButton crearMazoAuxiliarButton() {
@@ -194,9 +224,22 @@ public class PyramidView {
     }
 
     private JButton crearJokerButton() {
-        String label = "<html><center>Joker</center></html>";
-        JButton button = new JButton(label);
-        button.setPreferredSize(new Dimension(120, 40));
+        //String label = "<html><center>Joker</center></html>";
+        //JButton button = new JButton(label);
+        JButton button = new JButton();
+
+        // Cargamos imagen del joker
+        ImageIcon jokerIcon = new ImageIcon("assets/jokerCards.jpeg");
+        Image image = jokerIcon.getImage().getScaledInstance(60, 90, Image.SCALE_SMOOTH);
+        ImageIcon scaledIcon = new ImageIcon(image);
+        button.setIcon(scaledIcon);
+        button.setPreferredSize(new Dimension(60, 90));
+        button.setPreferredSize(new Dimension(60, 90));
+        button.setMaximumSize(new Dimension(60,90));
+        button.setOpaque(false);
+        button.setBorderPainted(false);
+        button.setContentAreaFilled(false);
+        button.setFocusPainted(false);
         button.setOpaque(false);
         return button;
     }
