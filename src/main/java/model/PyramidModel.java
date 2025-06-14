@@ -4,8 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class PyramidModel extends Observable {
-    private final List<List<Card>> pyramid = new ArrayList<>();
-    private final Deck deck = new Deck();
+    private final List<List<Card>> pyramid;
+    private final Deck deck;
+
+    public PyramidModel() {
+        pyramid = new ArrayList<>();
+        deck = new Deck();
+        setupPyramid();
+    }
 
     public void setupPyramid() {
         pyramid.clear();
@@ -76,7 +82,7 @@ public class PyramidModel extends Observable {
     }
 
     private boolean noMoreMoves() {
-        return !canSelectAnyCard() && deckIsEmpty();
+        return !canSelectAnyCard() && deck.isEmpty();
     }
 
     public boolean isPyramidEmpty() {
@@ -89,10 +95,4 @@ public class PyramidModel extends Observable {
         }
         return true;
     }
-
-    public boolean deckIsEmpty() {
-        return deck.isEmpty();
-    }
-
-
 }

@@ -154,7 +154,7 @@ public class PyramidController implements Observer {
 
     private void handleCardSelection(Card card, JButton button) throws Exception {
         if (model.isGameOver()) {
-            if (isPyramidEmpty()) {
+            if (model.isPyramidEmpty()) {
                 view.showMessage("¡Felicidades! Has completado la pirámide.");
                 auxiliaryDiscardPile.clear();
                 view.getAuxDeckButton().setEnabled(false);
@@ -247,7 +247,7 @@ public class PyramidController implements Observer {
                 }
             }
         }
-        if (isPyramidEmpty()) {
+        if (model.isPyramidEmpty()) {
             view.showMessage("¡Felicidades! Has completado la pirámide.");
             view.getAuxDeckButton().setEnabled(false);
             view.getActiveCardButton().setEnabled(false);
@@ -276,17 +276,6 @@ public class PyramidController implements Observer {
         }
         selectedCards.clear();
         selectedButtons.clear();
-    }
-
-    private boolean isPyramidEmpty() {
-        for (List<Card> row : model.getPyramid()) {
-            for (Card card : row) {
-                if (card != null) {
-                    return false;
-                }
-            }
-        }
-        return true;
     }
 
     public void startNewGame() {
@@ -348,7 +337,7 @@ public class PyramidController implements Observer {
         auxiliaryDiscardPile.clear();
         cantJoker = 2;
         cantReverse = 3;
-        model.setupPyramid();
+        //model.setupPyramid();
         view.setupGameView(model);
         view.getAuxDeckButton().setEnabled(true);
         view.getActiveCardButton().setEnabled(true);

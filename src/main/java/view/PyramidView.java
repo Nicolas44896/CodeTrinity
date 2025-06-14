@@ -20,8 +20,6 @@ public class PyramidView {
     private final JButton exitGameButton = new JButton("Salir del Juego");
     private final Image backgroundImage = new ImageIcon("assets/fondo2.jpg").getImage();
     private final BackgroundPanel backgroundPanel = new BackgroundPanel(backgroundImage);
-
-
     private static PyramidView instance;
 
     private PyramidView() {
