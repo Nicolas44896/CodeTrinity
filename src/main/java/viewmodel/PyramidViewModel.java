@@ -1,4 +1,4 @@
-package controller;
+package viewmodel;
 
 import model.*;
 import model.Observer;
@@ -16,7 +16,7 @@ import javax.sound.sampled.Clip;
 import java.io.File;
 
 
-public class PyramidController implements Observer {
+public class PyramidViewModel implements Observer {
     private PyramidModel model;
     private final PyramidView view;
     private final List<Card> selectedCards = new ArrayList<>();
@@ -26,8 +26,8 @@ public class PyramidController implements Observer {
     private int cantJoker = 2; // Cantidad de comodines disponibles
     private int cantReverse = 3;
 
-    // PyramidController.java
-    public PyramidController(PyramidModel model, PyramidView view) {
+
+    public PyramidViewModel(PyramidModel model, PyramidView view) {
         this.model = model;
         this.view = view;
 
@@ -337,8 +337,7 @@ public class PyramidController implements Observer {
         auxiliaryDiscardPile.clear();
         cantJoker = 2;
         cantReverse = 3;
-        //model.setupPyramid();
-        view.setupGameView(model);
+        view.setupGameView();
         view.getAuxDeckButton().setEnabled(true);
         view.getActiveCardButton().setEnabled(true);
         view.getJokerButton().setVisible(true);

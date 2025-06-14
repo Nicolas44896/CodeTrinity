@@ -202,7 +202,7 @@ public class PyramidView {
             symbols.append("A");
             symbols.append(card.getSuit());
         }
-        // Número en las esquinas superiores
+
         return "<html><div style='text-align:center;'>"
                 + "<div style='font-size:10px; display:flex; justify-content:space-between;'>"
                 + "<span>" + valueStr  + "</span></div>"
@@ -221,7 +221,6 @@ public class PyramidView {
     private JButton crearJokerButton() {
         JButton button = new JButton();
 
-        // Cargamos imagen del joker
         ImageIcon jokerIcon = new ImageIcon("assets/jokerCards.jpeg");
         Image image = jokerIcon.getImage().getScaledInstance(60, 90, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(image);
@@ -290,7 +289,7 @@ public class PyramidView {
         frame.repaint();
     }
 
-    public void setupGameView(PyramidModel model) {
+    public void setupGameView() {
         JPanel pyramidPanel = getPyramidPanel();
         pyramidPanel.removeAll();
         pyramidPanel.revalidate();
