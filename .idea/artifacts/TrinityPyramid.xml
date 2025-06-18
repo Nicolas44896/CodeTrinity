@@ -1,0 +1,11 @@
+<component name="ArtifactManager">
+  <artifact type="jar" name="TrinityPyramid">
+    <output-path>$PROJECT_DIR$/out/artifacts/TrinityPyramid</output-path>
+    <root id="archive" name="TrinityPyramid.jar">
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="archive" name="TrinityPyramid.jar" />
+    </root>
+  </artifact>
+</component>
