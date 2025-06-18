@@ -30,15 +30,12 @@ public class PyramidViewModel implements Observer {
     public PyramidViewModel(PyramidModel model, PyramidView view) {
         this.model = model;
         this.view = view;
-
-        model.addObserver(this); // siempre primero para recibir updates
-
-        setupListeners();        // seteo listeners una sola vez
-
-        initialize();            // inicializo todo el estado y vista
-
-        joker();                 // setup comodín (si es necesario)
+        model.addObserver(this);
+        setupListeners();
+        initialize();
+        joker();
     }
+
 
     private void setupView() {
         List<List<Card>> pyramid = model.getPyramid();
@@ -286,8 +283,6 @@ public class PyramidViewModel implements Observer {
 
     @Override
     public void update() {
-        // Cuando el modelo cambia, se ejecuta este método
-        // Aquí puedes redibujar la pirámide, actualizar botones, etc.
         refreshPyramidView();
     }
 
