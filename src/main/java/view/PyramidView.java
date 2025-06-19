@@ -14,15 +14,12 @@ public class PyramidView {
     private final JButton auxDeckButton = crearMazoAuxiliarButton();
     private final JButton jokerButton = crearJokerButton();
     private final JButton restartButton = new JButton("Restart");
-    private final Dimension cardDimension = new Dimension(60, 100);
     private final JPanel startMenuPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 20, 20)); // Cambio aquí
     private final JButton startButton = new JButton("Iniciar Juego");
     private final JButton exitButton = new JButton("Salir");
     private final JButton exitGameButton = new JButton("Salir del Juego");
-    private final Image backgroundImage = new ImageIcon("assets/fondo5.jpg").getImage();
+    private final Image backgroundImage = new ImageIcon("assets/fondo2.jpg").getImage();
     private final BackgroundPanel backgroundPanel = new BackgroundPanel(backgroundImage);
-
-
     private static PyramidView instance;
 
     private PyramidView() {
@@ -32,8 +29,6 @@ public class PyramidView {
         setupPyramidPanel();
         setupRightPanel();
         setupInitialVisibility();
-
-
     }
 
     private void setupFrame() {
@@ -44,7 +39,7 @@ public class PyramidView {
     }
 
     private void setupBackground() {
-        ImageIcon bgIcon = new ImageIcon("assets/fondo5.jpg");
+        ImageIcon bgIcon = new ImageIcon("assets/fondo4.jpg");
         BackgroundPanel backgroundPanel = new BackgroundPanel(bgIcon.getImage());
         backgroundPanel.setLayout(new GridBagLayout());  // Para centrar el startMenuPanel
 
@@ -115,7 +110,7 @@ public class PyramidView {
         gbc.gridy = 4;
         rightPanel.add(exitGameButton, gbc);
 
-        Dimension controlButtonSize = new Dimension(120, 40);
+        Dimension controlButtonSize = new Dimension(110, 40);
         restartButton.setPreferredSize(controlButtonSize);
         exitGameButton.setPreferredSize(controlButtonSize);
 
@@ -207,7 +202,7 @@ public class PyramidView {
             symbols.append("A");
             symbols.append(card.getSuit());
         }
-        // Número en las esquinas superiores
+
         return "<html><div style='text-align:center;'>"
                 + "<div style='font-size:10px; display:flex; justify-content:space-between;'>"
                 + "<span>" + valueStr  + "</span></div>"
@@ -224,11 +219,8 @@ public class PyramidView {
     }
 
     private JButton crearJokerButton() {
-        //String label = "<html><center>Joker</center></html>";
-        //JButton button = new JButton(label);
         JButton button = new JButton();
 
-        // Cargamos imagen del joker
         ImageIcon jokerIcon = new ImageIcon("assets/jokerCards.jpeg");
         Image image = jokerIcon.getImage().getScaledInstance(60, 90, Image.SCALE_SMOOTH);
         ImageIcon scaledIcon = new ImageIcon(image);
@@ -236,11 +228,8 @@ public class PyramidView {
         button.setPreferredSize(new Dimension(60, 90));
         button.setPreferredSize(new Dimension(60, 90));
         button.setMaximumSize(new Dimension(60,90));
-        button.setOpaque(false);
-        button.setBorderPainted(false);
         button.setContentAreaFilled(false);
-        button.setFocusPainted(false);
-        button.setOpaque(false);
+        button.setOpaque(true);
         return button;
     }
 
@@ -300,7 +289,7 @@ public class PyramidView {
         frame.repaint();
     }
 
-    public void setupGameView(PyramidModel model) {
+    public void setupGameView() {
         JPanel pyramidPanel = getPyramidPanel();
         pyramidPanel.removeAll();
         pyramidPanel.revalidate();
@@ -310,6 +299,4 @@ public class PyramidView {
     public JPanel getStartMenuPanel() {
         return startMenuPanel;
     }
-
-
 }
