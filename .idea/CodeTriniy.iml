@@ -5,5 +5,15 @@
     <content url="file://$MODULE_DIR$" />
     <orderEntry type="inheritedJdk" />
     <orderEntry type="sourceFolder" forTests="false" />
+    <orderEntry type="module-library" scope="TEST">
+      <library>
+        <CLASSES>
+          <root url="jar://$MODULE_DIR$/lib/junit-platform-console-standalone-1.13.0-javadoc.jar!/" />
+        </CLASSES>
+        <JAVADOC />
+        <SOURCES />
+        <jarDirectory url="jar://$MODULE_DIR$/lib/junit-platform-console-standalone-1.13.0-javadoc.jar!/" recursive="false" />
+      </library>
+    </orderEntry>
   </component>
 </module>
