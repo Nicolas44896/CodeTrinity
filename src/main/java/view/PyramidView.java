@@ -4,9 +4,10 @@ import javax.swing.*;
 import java.awt.*;
 
 import model.Card;
+import model.Observer;
 import model.PyramidModel;
 
-public class PyramidView {
+public class PyramidView implements Observer {
     private final JFrame frame = new JFrame("Pyramid Card Game");
     private final JPanel pyramidPanel = new JPanel();
     private final JPanel rightPanel = new JPanel();
@@ -164,6 +165,14 @@ public class PyramidView {
         return restartButton;
     }
 
+    @Override
+    public void update() {
+        getAuxDeckButton().setEnabled(false);
+        getActiveCardButton().setEnabled(false);
+        getJokerButton().setEnabled(false);
+        showStartMenu();
+    }
+
     public void showMessage(String message) {
         JOptionPane.showMessageDialog(frame, message);
     }
@@ -299,4 +308,6 @@ public class PyramidView {
     public JPanel getStartMenuPanel() {
         return startMenuPanel;
     }
+
+
 }

@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 import java.util.List;
 
-public class PyramidModel extends Observable {
+public class PyramidModel{
     private final List<List<Card>> pyramid;
     private final Deck deck;
 
@@ -24,7 +24,6 @@ public class PyramidModel extends Observable {
             }
             pyramid.add(currentRow);
         }
-        notifyObservers();
     }
 
     public List<List<Card>> getPyramid() {
@@ -40,7 +39,6 @@ public class PyramidModel extends Observable {
             int index = row.indexOf(card);
             if (index != -1) {
                 row.set(index, null);
-                notifyObservers(); // Notifica cambios
                 break;
             }
         }

@@ -1,6 +1,7 @@
 package viewmodel;
 
 import model.*;
+import model.Observable;
 import model.Observer;
 import view.*;
 
@@ -16,7 +17,7 @@ import javax.sound.sampled.Clip;
 import java.io.File;
 
 
-public class PyramidViewModel implements Observer {
+public class PyramidViewModel extends Observable {
     private PyramidModel model;
     private final PyramidView view;
     private final List<Card> selectedCards = new ArrayList<>();
@@ -30,12 +31,66 @@ public class PyramidViewModel implements Observer {
     public PyramidViewModel(PyramidModel model, PyramidView view) {
         this.model = model;
         this.view = view;
-        model.addObserver(this);
+        addObserver(view);
         setupListeners();
         initialize();
         joker();
     }
 
+    private void handleCardSelection(Card card, JButton button) throws Exception {
+        if (model.isGameOver()) {
+            if (model.isPyramidEmpty()) {
+                view.showMessage("¡Felicidades! Has completado la pirámide.");
+                notifyObservers();
+            }
+
+            notifyObservers();
+        }
+        if (card == null) return;
+
+        if (selectedCards.contains(card)) {
+            selectedCards.remove(card);
+            selectedButtons.remove(button);
+            button.setBackground(null);
+            return;
+        }
+
+        if (selectedCards.size() < 2 && (card.getRow() == -1 || model.isCardFree(card))) {
+            selectedCards.add(card);
+            selectedButtons.add(button);
+            button.setBackground(Color.YELLOW);
+        } else {
+            playSound("assets/sonido_incorrecto.wav");
+            view.showMessage("Carta no válida.");
+            return;
+        }
+
+        // Caso de eliminación directa de una sola carta de valor 13
+        if (selectedCards.size() == 1 && selectedCards.get(0).getValue() == 13) {
+            removeSelectedCards();
+            return;
+        }
+
+        if (selectedCards.size() == 2) {
+            Card c1 = selectedCards.get(0);
+            Card c2 = selectedCards.get(1);
+
+            if (c1.isComodin() && c2.isComodin()) {
+                clearSelection();
+            } else if (c1.isComodin() && c2.getValue() == 13) {
+                clearSelection();
+            } else if (c1.isComodin() || c2.isComodin()) {
+                removeSelectedCards();
+            } else if (c1.getValue() + c2.getValue() == 13) {
+                removeSelectedCards();
+            } else {
+                playSound("assets/sonido_incorrecto.wav");
+                view.showMessage("Las cartas no suman 13");
+                clearSelection();
+
+            }
+        }
+    }
 
     private void setupView() {
         List<List<Card>> pyramid = model.getPyramid();
@@ -149,62 +204,7 @@ public class PyramidViewModel implements Observer {
 
     }
 
-    private void handleCardSelection(Card card, JButton button) throws Exception {
-        if (model.isGameOver()) {
-            if (model.isPyramidEmpty()) {
-                view.showMessage("¡Felicidades! Has completado la pirámide.");
-                auxiliaryDiscardPile.clear();
-                view.getAuxDeckButton().setEnabled(false);
-                view.getActiveCardButton().setEnabled(false);
-                view.getJokerButton().setEnabled(false);
-                returnToMainMenu();
-            }
-        }
-        if (card == null) return;
 
-        if (selectedCards.contains(card)) {
-            selectedCards.remove(card);
-            selectedButtons.remove(button);
-            button.setBackground(null);
-            return;
-        }
-
-        if (selectedCards.size() < 2 && (card.getRow() == -1 || model.isCardFree(card))) {
-            selectedCards.add(card);
-            selectedButtons.add(button);
-            button.setBackground(Color.YELLOW);
-        } else {
-            playSound("assets/sonido_incorrecto.wav");
-            view.showMessage("Carta no válida.");
-            return;
-        }
-
-        // Caso de eliminación directa de una sola carta de valor 13
-        if (selectedCards.size() == 1 && selectedCards.get(0).getValue() == 13) {
-            removeSelectedCards();
-            return;
-        }
-
-        if (selectedCards.size() == 2) {
-            Card c1 = selectedCards.get(0);
-            Card c2 = selectedCards.get(1);
-
-            if (c1.isComodin() && c2.isComodin()) {
-                clearSelection();
-            } else if (c1.isComodin() && c2.getValue() == 13) {
-                clearSelection();
-            } else if (c1.isComodin() || c2.isComodin()) {
-                removeSelectedCards();
-            } else if (c1.getValue() + c2.getValue() == 13) {
-                removeSelectedCards();
-            } else {
-                playSound("assets/sonido_incorrecto.wav");
-                view.showMessage("Las cartas no suman 13");
-                clearSelection();
-
-            }
-        }
-    }
 
     private void removeSelectedCards() throws Exception {
         for (int i = 0; i < selectedCards.size(); i++) {
@@ -244,12 +244,9 @@ public class PyramidViewModel implements Observer {
                 }
             }
         }
-        if (model.isPyramidEmpty()) {
-            view.showMessage("¡Felicidades! Has completado la pirámide.");
-            view.getAuxDeckButton().setEnabled(false);
-            view.getActiveCardButton().setEnabled(false);
-            view.getJokerButton().setEnabled(false);
-        }
+//        if (model.isPyramidEmpty()) {
+//            notifyObservers();
+//        }
         selectedCards.clear();
         selectedButtons.clear();
         playSound("assets/sonido_correcto.wav");
@@ -279,42 +276,6 @@ public class PyramidViewModel implements Observer {
         model = new PyramidModel();  // nuevo modelo = juego nuevo
         initialize();                // conectar todo
         view.startGamePanel();       // ir al panel de juego
-    }
-
-    @Override
-    public void update() {
-        refreshPyramidView();
-    }
-
-    private void refreshPyramidView() {
-        JPanel pyramidPanel = view.getPyramidPanel();
-        pyramidPanel.removeAll(); // Elimina la vista anterior
-
-        List<List<Card>> pyramid = model.getPyramid();
-        for (int row = 0; row < pyramid.size(); row++) {
-            JPanel rowPanel = new JPanel(new FlowLayout(FlowLayout.CENTER));
-            rowPanel.setOpaque(false);
-            for (int col = 0; col <= row; col++) {
-                Card card = pyramid.get(row).get(col);
-                if (card != null) {
-                    JButton cardButton = view.createCardButton(card);
-                    cardButton.addActionListener(e -> {
-                        try {
-                            handleCardSelection(card, cardButton);
-                        } catch (Exception ex) {
-                            ex.printStackTrace();
-                        }
-                    });
-                    rowPanel.add(cardButton);
-                } else {
-                    rowPanel.add(Box.createRigidArea(new Dimension(60, 100))); // Espacio vacío
-                }
-            }
-            pyramidPanel.add(rowPanel);
-        }
-
-        pyramidPanel.revalidate();
-        pyramidPanel.repaint();
     }
 
     private void returnToMainMenu() {

@@ -10,17 +10,14 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="c321c626-6f48-4d05-8aeb-c45cdf5121fe" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/Card.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/Deck.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/Observable.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/Observer.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/model/PyramidModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/BackgroundPanel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/view/PyramidView.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/main/java/viewmodel/PyramidViewModel.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/test/java/model/DeckTest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/artifacts/code_trinity_jar/code-trinity.jar" beforeDir="false" afterPath="$PROJECT_DIR$/out/artifacts/code_trinity_jar/code-trinity.jar" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/model/PyramidModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/model/PyramidModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/view/PyramidView.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/view/PyramidView.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/src/main/java/viewmodel/PyramidViewModel.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/main/java/viewmodel/PyramidViewModel.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/model/PyramidModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/model/PyramidModel.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/view/PyramidView.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/view/PyramidView.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/target/classes/viewmodel/PyramidViewModel.class" beforeDir="false" afterPath="$PROJECT_DIR$/target/classes/viewmodel/PyramidViewModel.class" afterDir="false" />
     </list>
     <list id="09a753e0-67ef-432c-8370-cea130809b43" name="Changes by nik01" comment="" />
     <option name="SHOW_DIALOG" value="false" />
@@ -65,28 +62,28 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.Main.executor": "Run",
-    "Application.TestPyramidViewSimple.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "C:/Users/majac/OneDrive/Documentos/Docs Facu/7mo Semestre/Ingenieria de Software/CodeTrinity",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.15",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "configurable.group.tools",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.TestPyramidViewSimple.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/majac/OneDrive/Documentos/Docs Facu/7mo Semestre/Ingenieria de Software/CodeTrinity&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.15&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;configurable.group.tools&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CreateClassDialog.RecentsKey">
       <recent name="model" />
@@ -161,7 +158,9 @@
       <workItem from="1750264742041" duration="1156000" />
       <workItem from="1750265947445" duration="2759000" />
       <workItem from="1750303689822" duration="3169000" />
-      <workItem from="1750338967174" duration="2165000" />
+      <workItem from="1750338967174" duration="2287000" />
+      <workItem from="1750343545012" duration="57000" />
+      <workItem from="1750364200753" duration="4461000" />
     </task>
     <servers />
   </component>
