@@ -1,7 +1,7 @@
 # 🃏 Piramyd
 
 Piramyd es una implementación digital del clásico juego de cartas solitario "Pyramid", desarrollado en Java como parte de un proceso de refactorización y extensión basado en un repositorio previo en Python, para el proyecto final de la asignatura de Ingeniería de Software por el grupo CodeTrinity.
-La extensión se centra en el agregado de cartas especiales, las cuales están diseñadas como una funcionalidad opcional para el usuario, permitiendo activar o desactivar su uso al comienzo de cada partida. El objetivo es ofrecer una experiencia de juego más variada, adaptable tanto para jugadores casuales como para quienes busquen un mayor desafío.
+La extensión se centra en el agregado de cartas especiales, las cuales están diseñadas como una funcionalidad para el usuario. El objetivo es ofrecer una experiencia de juego más variada, adaptable tanto para jugadores casuales como para quienes busquen un mayor desafío.
 
 ---
 
