@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$PROJECT_DIR$/CodeTrinity.iml" filepath="$PROJECT_DIR$/CodeTrinity.iml" />
+      <module fileurl="file://$PROJECT_DIR$/code-trinity.iml" filepath="$PROJECT_DIR$/code-trinity.iml" />
     </modules>
   </component>
 </project>
