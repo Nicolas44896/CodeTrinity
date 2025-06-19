@@ -89,11 +89,4 @@ README.html
 .idea
 .exercism
 .xml
-src/
-docs/
-META-INF/
-.idea/
-.github/workflows/
-assets/
-target/
-out/test/CodeTrinity/
+

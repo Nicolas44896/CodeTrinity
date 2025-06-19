@@ -1,0 +1,14 @@
+<changelist name="Uncommitted_changes_before_Checkout_at_6_18_2025_2_51_PM_[Changes]" date="1750269072138" recycled="true" deleted="true">
+  <option name="PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_18_2025_2_51_PM_[Changes]/shelved.patch" />
+  <option name="DESCRIPTION" value="Uncommitted changes before Checkout at 6/18/2025 2:51 PM [Changes]" />
+  <binary>
+    <option name="BEFORE_PATH" value="target/test-classes/model/DeckTest.class" />
+    <option name="AFTER_PATH" value="target/test-classes/model/DeckTest.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_18_2025_2_51_PM_[Changes]/DeckTest.class" />
+  </binary>
+  <binary>
+    <option name="BEFORE_PATH" value="target/classes/view/PyramidView.class" />
+    <option name="AFTER_PATH" value="target/classes/view/PyramidView.class" />
+    <option name="SHELVED_PATH" value="$PROJECT_DIR$/.idea/shelf/Uncommitted_changes_before_Checkout_at_6_18_2025_2_51_PM_[Changes]/PyramidView.class" />
+  </binary>
+</changelist>

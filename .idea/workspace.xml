@@ -1,0 +1,186 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ArtifactsWorkspaceSettings">
+    <artifacts-to-build>
+      <artifact name="code-trinity:jar" />
+    </artifacts-to-build>
+  </component>
+  <component name="AutoImportSettings">
+    <option name="autoReloadType" value="SELECTIVE" />
+  </component>
+  <component name="ChangeListManager">
+    <list default="true" id="c321c626-6f48-4d05-8aeb-c45cdf5121fe" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/src/main/java/Main.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Card.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Deck.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Observable.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/Observer.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/model/PyramidModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/BackgroundPanel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/view/PyramidView.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/viewmodel/PyramidViewModel.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/test/java/model/DeckTest.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/.gitignore" afterDir="false" />
+    </list>
+    <list id="09a753e0-67ef-432c-8370-cea130809b43" name="Changes by nik01" comment="" />
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Enum" />
+        <option value="Class" />
+        <option value="Interface" />
+      </list>
+    </option>
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_BRANCH_BY_REPOSITORY">
+      <map>
+        <entry key="$PROJECT_DIR$" value="Develop" />
+      </map>
+    </option>
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;Mati-Costamagna&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/Nicolas44896/CodeTrinity.git&quot;,
+    &quot;accountId&quot;: &quot;591b9607-f881-4ff8-83a1-394f420f5092&quot;
+  }
+}</component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 6
+}</component>
+  <component name="ProjectId" id="2y0J0dJqrJJeMIKuD7I0qSATuIj" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent"><![CDATA[{
+  "keyToString": {
+    "Application.Main.executor": "Run",
+    "Application.TestPyramidViewSimple.executor": "Run",
+    "RunOnceActivity.ShowReadmeOnStart": "true",
+    "RunOnceActivity.git.unshallow": "true",
+    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
+    "git-widget-placeholder": "main",
+    "kotlin-language-version-configured": "true",
+    "last_opened_file_path": "C:/Users/majac/OneDrive/Documentos/Docs Facu/7mo Semestre/Ingenieria de Software/CodeTrinity",
+    "node.js.detected.package.eslint": "true",
+    "node.js.detected.package.tslint": "true",
+    "node.js.selected.package.eslint": "(autodetect)",
+    "node.js.selected.package.tslint": "(autodetect)",
+    "nodejs_package_manager_path": "npm",
+    "project.structure.last.edited": "Project",
+    "project.structure.proportion": "0.15",
+    "project.structure.side.proportion": "0.2",
+    "settings.editor.selected.configurable": "configurable.group.tools",
+    "vue.rearranger.settings.migration": "true"
+  }
+}]]></component>
+  <component name="RecentsManager">
+    <key name="CreateClassDialog.RecentsKey">
+      <recent name="model" />
+    </key>
+  </component>
+  <component name="RunManager" selected="Application.Main">
+    <configuration name="Main" type="Application" factoryName="Application">
+      <option name="MAIN_CLASS_NAME" value="Main" />
+      <module name="code-trinity" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <configuration name="TestPyramidViewSimple" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="TestPyramidViewSimple" />
+      <module name="CodeTrinity" />
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <list>
+      <item itemvalue="Application.Main" />
+      <item itemvalue="Application.TestPyramidViewSimple" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.TestPyramidViewSimple" />
+        <item itemvalue="Application.TestPyramidViewSimple" />
+        <item itemvalue="Application.TestPyramidViewSimple" />
+        <item itemvalue="Application.TestPyramidViewSimple" />
+        <item itemvalue="Application.TestPyramidViewSimple" />
+      </list>
+    </recent_temporary>
+  </component>
+  <component name="SharedIndexes">
+    <attachedChunks>
+      <set>
+        <option value="bundled-jdk-9823dce3aa75-a94e463ab2e7-intellij.indexing.shared.core-IU-243.26574.91" />
+        <option value="bundled-js-predefined-d6986cc7102b-1632447f56bf-JavaScript-IU-243.26574.91" />
+      </set>
+    </attachedChunks>
+  </component>
+  <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="c321c626-6f48-4d05-8aeb-c45cdf5121fe" name="Changes" comment="" />
+      <created>1748965335789</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1748965335789</updated>
+      <workItem from="1748965337094" duration="8581000" />
+      <workItem from="1748989948164" duration="10648000" />
+      <workItem from="1749004154747" duration="8629000" />
+      <workItem from="1749013044396" duration="159000" />
+      <workItem from="1749044380791" duration="10129000" />
+      <workItem from="1749063752967" duration="69000" />
+      <workItem from="1749137988975" duration="423000" />
+      <workItem from="1749138755283" duration="1990000" />
+      <workItem from="1749152642161" duration="40000" />
+      <workItem from="1749345008117" duration="3000" />
+      <workItem from="1749400456348" duration="591000" />
+      <workItem from="1749501733796" duration="22000" />
+      <workItem from="1749754896643" duration="1792000" />
+      <workItem from="1749756730825" duration="2769000" />
+      <workItem from="1749759671773" duration="304000" />
+      <workItem from="1749760005883" duration="128000" />
+      <workItem from="1749825391106" duration="90000" />
+      <workItem from="1749909786865" duration="4836000" />
+      <workItem from="1750112474689" duration="6000" />
+      <workItem from="1750199970929" duration="516000" />
+      <workItem from="1750206756683" duration="8788000" />
+      <workItem from="1750264742041" duration="1156000" />
+      <workItem from="1750265947445" duration="2759000" />
+      <workItem from="1750303689822" duration="3169000" />
+      <workItem from="1750338967174" duration="2165000" />
+    </task>
+    <servers />
+  </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="3" />
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="java-method">
+          <url>file://$PROJECT_DIR$/src/view/PyramidView.java</url>
+          <line>16</line>
+          <properties class="view.PyramidView">
+            <option name="EMULATED" value="true" />
+            <option name="WATCH_EXIT" value="false" />
+          </properties>
+          <option name="timeStamp" value="1" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
+  </component>
+</project>
